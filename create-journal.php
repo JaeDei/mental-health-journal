@@ -16,13 +16,12 @@ if($role != 2){
       $userID = $_GET['userID'];
       $title = $_POST['title'];
       $content = $_POST['content'];
-      $mood = $_POST['mood'];
-      $mood = filter_var($mood, FILTER_SANITIZE_STRING);
-      $thoughts = $_POST['thoughts'];
+      $moodID = $_POST['mood'];
+      $thought = $_POST['thought'];
       $status = 'private';
       
-      $insert = $db->prepare("INSERT INTO `posts`(userID, title, content, mood, thoughts, status) VALUES(?,?,?,?,?,?)");
-      $insert->execute([$userID, $title, $content, $mood, $thoughts, $status]);
+      $insert = $db->prepare("INSERT INTO `posts`(userID, title, content, moodID, thought, status) VALUES(?,?,?,?,?,?)");
+      $insert->execute([$userID, $title, $content, $moodID, $thought, $status]);
       
       if($insert){
 
@@ -115,18 +114,19 @@ if($role != 2){
                                  <label for="mood">Mood</label>
                                  <select id="mood" name="mood" class="form-control custom-select" required>
                                     <option value="" selected disabled>Select Mood</option>
-                                    <option value="excited">excited &#128513;;</option>
-                                    <option value="sad">sad  &#129402;</option>
-                                    <option value="angry">angry &#128544;</option>
-                                    <option value="sick">sick &#128567;</option>
-                                    <option value="suprised">suprised  &#128558;</option>
-                                    <option value="happy">happy  &#128522;</option>
-                                    <option value="Bored">Bored  &#129393;</option>
+                                    <?php
+                                    $queries = $db->query("SELECT * FROM mood");
+                                    foreach($queries as $query){
+                                       ?>
+                                       <option value="<?php echo $query['moodID'];?>"><?php echo $query['description'];?> <?php echo $query['mood'];?></option>
+                                       <?php
+                                    }
+                                    ?>
                                  </select>
                               </div>
                               <div class="form-group">
-                                 <label for="thoughts">What are your thoughts or feelings?</label>
-                                 <textarea id="thoughts" name="thoughts" class="form-control" rows="4" required></textarea>
+                                 <label for="thought">What are your thoughts or feelings?</label>
+                                 <textarea id="thought" name="thought" class="form-control" rows="4" required></textarea>
                               </div>
                               <div class="form-group row">
                                  <div class="offset-sm-0 col-sm-10">
