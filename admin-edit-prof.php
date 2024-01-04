@@ -28,21 +28,7 @@ if($role != 1){
         $new_prof_tmp_name = $_FILES['new_prof_pic']['tmp_name'];
         $new_prof_folder = 'assets/profile_img'.$new_prof_pic;
 
-        $select_username = $db->prepare("SELECT * FROM Users WHERE username = ?");
-        $select_username->execute([$username]);
-    
-        $select_email = $db->prepare("SELECT * FROM Users WHERE email = ?");
-        $select_email->execute([$email]);
-
-        if($select_username->rowCount() > 0){
-        
-            $message[] = 'Username already exist!';
-    
-        }elseif($select_email->rowCount() > 0){
-        
-            $message[] = 'Email already exist!';
-    
-        }elseif(!preg_match("/^[a-zA-Z ]+$/", $firstname)){
+        if(!preg_match("/^[a-zA-Z ]+$/", $firstname)){
 
             $message[] = 'First Name must contain only alphabets and space!';
 
