@@ -1,11 +1,14 @@
 <?php
 
-include 'includes/db.php';
 session_start();
-$userID = $_SESSION['userID'];
 
-if(!isset($userID)){
-   header('location:login.php');
+require('includes/config.php');
+require('includes/db.php');
+require('check-login.php');
+
+if($role != 2){
+   unset($_SESSION);
+   header('location: unauthorized.php');
 }
 
 if(isset($_POST['delete'])){
