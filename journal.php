@@ -65,7 +65,7 @@ if($role != 2){
               <div class="card-header">
                 <h3 class="card-title">Entries</h3>
                 <div class="card-button">
-                    <button type="submit" class="btn btn-block btn-primary btn-sm">
+                    <button type="submit" onclick="window.location.href='create-journal.php?userID=<?php echo $fetch['userID'];?>'" class="btn btn-block btn-primary btn-sm">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>

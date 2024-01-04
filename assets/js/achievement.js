@@ -6,10 +6,6 @@ document.addEventListener("DOMContentLoaded", function(){
     };
 
     const achievements = {
-        login: {
-            condition: () => user.isLoggedIn,
-            message: 'Achievement Unlocked: First Login!',
-        },
         post: {
             condition: () => user.hasPosted,
             message: 'Achievement Unlocked: First Post!',
@@ -34,12 +30,6 @@ document.addEventListener("DOMContentLoaded", function(){
             imageAlt: "Custom image"
           });
     }
-
-    document.getElementById('loginBtn').addEventListener('click', function () {
-        // Simulated login action
-        user.isLoggedIn = true;
-        checkAchievements();
-    });
 
     document.getElementById('postBtn').addEventListener('click', function () {
         // Simulated post action

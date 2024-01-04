@@ -6,91 +6,45 @@ require('includes/config.php');
 require('includes/db.php');
 require('check-login.php');
 
-$userID = $_SESSION['userID'];
-
-if(!isset($userID)){
-   header('location:login.php');
-}
-
-if(isset($_POST['publish'])){
-
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
-   $category = $_POST['mood'];
-   $category = filter_var($category, FILTER_SANITIZE_STRING);
-   $status = 'shared';
+if($role != 2){
+   unset($_SESSION);
+   header('location: unauthorized.php');
+}else{
    
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = 'assets/profile_img/'.$image;
+   if(isset($_POST['submit'])){
 
-   $select_image = $db->prepare("SELECT * FROM posts WHERE image = ? AND userID = ? ");
-   $select_image->execute([$image, $userID]);
+      $userID = $_GET['userID'];
+      $title = $_POST['title'];
+      $content = $_POST['content'];
+      $mood = $_POST['mood'];
+      $mood = filter_var($mood, FILTER_SANITIZE_STRING);
+      $thoughts = $_POST['thoughts'];
+      $status = 'private';
+      
+      $insert = $db->prepare("INSERT INTO `posts`(userID, title, content, mood, thoughts, status) VALUES(?,?,?,?,?,?)");
+      $insert->execute([$userID, $title, $content, $mood, $thoughts, $status]);
+      
+      if($insert){
 
-   if(isset($image)){
-      if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'image name repeated!';
-      }elseif($image_size > 2000000){
-         $message[] = 'images size is too large!';
-      }else{
-         move_uploaded_file($image_tmp_name, $image_folder);
+         ?>
+                <script type='text/javascript'>
+                    document.addEventListener("DOMContentLoaded", function(){
+                        Swal.fire({
+                            title: 'Register Completed!',
+                            text: 'Go to Login',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                window.location.href = '#';
+                            }
+                        });
+                    });
+                </script>";
+                <?php
+
       }
-   }else{
-      $image = '';
-   }
 
-   if($select_image->rowCount() > 0 AND $image != ''){
-      $message[] = 'please rename your image!';
-   }else{
-      $insert_post = $db->prepare("INSERT INTO posts (userID, title, content, mood, image, status) VALUES(?,?,?,?,?,?)");
-      $insert_post->execute([$userID, $title, $content, $category, $image, $status]);
-      $message[] = 'post published!';
-   }
-   
-}
-
-if(isset($_POST['draft'])){
-
-
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
-   $category = $_POST['mood'];
-   $category = filter_var($category, FILTER_SANITIZE_STRING);
-   $status = 'private';
-   
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = 'assets/profile_img/'.$image;
-
-   $select_image = $db->prepare("SELECT * FROM `posts` WHERE image = ? AND userID = ?");
-   $select_image->execute([$image, $userID]); 
-
-   if(isset($image)){
-      if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'image name repeated!';
-      }elseif($image_size > 2000000){
-         $message[] = 'images size is too large!';
-      }else{
-         move_uploaded_file($image_tmp_name, $image_folder);
-      }
-   }else{
-      $image = '';
-   }
-
-   if($select_image->rowCount() > 0 AND $image != ''){
-      $message[] = 'please rename your image!';
-   }else{
-      $insert_post = $db->prepare("INSERT INTO `posts`(userID, title, content, mood, image, status) VALUES(?,?,?,?,?,?)");
-      $insert_post->execute([$userID, $title, $content, $category, $image, $status]);
-      $message[] = 'draft saved!';
    }
 
 }
@@ -134,32 +88,59 @@ if(isset($_POST['draft'])){
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Daily Journal </h1>
-<form action="" method="post" enctype="multipart/form-data">
-      <p>Journal title <span>*</span></p>
-      <input type="text" name="title" maxlength="100" required placeholder="add post title" class="box">
-      <p>post content <span>*</span></p>
-      <textarea name="content" class="box" required maxlength="10000" placeholder="write your content..." cols="30" rows="10"></textarea>
-      <p>post Mood <span>*</span></p>
-      <select name="mood" class="box" required>
-         <option value="" selected disabled>-- select Mood* </option>
-         <option value="excited">excited &#128513;;</option>
-         <option value="sad">sad  &#129402;</option>
-         <option value="angry">angry &#128544;</option>
-         <option value="sick">sick &#128567;</option>
-         <option value="suprised">suprised  &#128558;</option>
-         <option value="happy">happy  &#128522;</option>
-         <option value="Bored">Bored  &#129393;</option>
-      </select>
-      <p>post image</p>
-      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp">
-      <div class="flex-btn">
-         <input type="submit" value="Shared" name="publish" class="option-btn">
-         <input type="submit" value="Private" name="draft" class="option-btn">
+                            <h1>Create Daily Journal</h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
+            <!-- Main content -->
+            <section class="content">
+               <div class="card-body">
+                  <div class="col-md-9">
+                     <div class="card card-primary">
+                        <div class="card-header">
+                           <h3 class="card-title">Journal Entry</h3>
+                        </div>
+                        <div class="card-body">
+                           <form action="" method="post">
+                              <div class="form-group">
+                                 <label for="title">Title</label>
+                                 <input type="text" id="title" name="title" class="form-control" required/>
+                              </div>
+                              <div class="form-group">
+                                 <label for="content">Content</label>
+                                 <textarea id="content" name="content" class="form-control" rows="4" required></textarea>
+                              </div>
+                              <div class="form-group">
+                                 <label for="mood">Mood</label>
+                                 <select id="mood" name="mood" class="form-control custom-select" required>
+                                    <option value="" selected disabled>Select Mood</option>
+                                    <option value="excited">excited &#128513;;</option>
+                                    <option value="sad">sad  &#129402;</option>
+                                    <option value="angry">angry &#128544;</option>
+                                    <option value="sick">sick &#128567;</option>
+                                    <option value="suprised">suprised  &#128558;</option>
+                                    <option value="happy">happy  &#128522;</option>
+                                    <option value="Bored">Bored  &#129393;</option>
+                                 </select>
+                              </div>
+                              <div class="form-group">
+                                 <label for="thoughts">What are your thoughts or feelings?</label>
+                                 <textarea id="thoughts" name="thoughts" class="form-control" rows="4" required></textarea>
+                              </div>
+                              <div class="form-group row">
+                                 <div class="offset-sm-0 col-sm-10">
+                                    <input type="submit" name="submit" value="Create new Journal" class="btn btn-success">
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                        <!-- /.card -->
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
     
