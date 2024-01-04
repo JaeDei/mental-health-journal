@@ -136,7 +136,7 @@ if($role != 2){
                                  <div class="text-center mt-7 mb-3">
                                     <a href="edit-journal.php?journalID=<?php echo $display['journal_id'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
                                     <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
-                                    <button type="submit" class="btn btn-sm btn-warning" name="status">Status</button>
+                                    <button type="submit" class="btn btn-sm btn-warning" name="status">Change Status</button>
                                  </div>
                               </div>
                            <?php
