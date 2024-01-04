@@ -9,24 +9,55 @@ require('check-login.php');
 if($role != 2){
    unset($_SESSION);
    header('location: unauthorized.php');
-}
+}else{
 
-if(isset($_POST['delete'])){
+   $journalID = $_GET['journalID'];
 
-   $p_id = $_POST['post_id'];
-   $p_id = filter_var($p_id, FILTER_SANITIZE_STRING);
-   $delete_image = $db->prepare("SELECT * FROM `posts` WHERE post_id = ?");
-   $delete_image->execute([$p_id]);
-   $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
-   if($fetch_delete_image['image'] != ''){
-      unlink('assets/profile_img/'.$fetch_delete_image['image']);
+   if(isset($_POST['status'])){
+      $status = 'Public';
+      ?>
+      <script type='text/javascript'>
+         document.addEventListener("DOMContentLoaded", function(){
+            Swal.fire({
+               title: "Share this Entry to Public?",
+               icon: "question",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes!"
+            }).then((result) => {
+               if (result.isConfirmed) {
+                  Swal.fire({
+                     title: "Shared!",
+                     text: "Your Entry set to Public!",
+                     icon: "success"
+                  });
+                  <?php
+                  $update = $db->prepare("UPDATE journal SET status = ? WHERE journal_id = ?");
+                  $update->execute([$status, $journalID]);
+                  ?>
+               }
+            });
+         });
+      </script>
+      <?php
    }
-   $delete_post = $db->prepare("DELETE FROM `posts` WHERE post_id = ?");
-   $delete_post->execute([$p_id]);
-   $delete_comments = $db->prepare("DELETE FROM `comments` WHERE post_id = ?");
-   $delete_comments->execute([$p_id]);
-   $message[] = 'post deleted successfully!';
 
+   if(isset($_POST['delete'])){
+
+      $delete_image = $db->prepare("SELECT * FROM `posts` WHERE post_id = ?");
+      $delete_image->execute([$p_id]);
+      $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
+      if($fetch_delete_image['image'] != ''){
+         unlink('assets/profile_img/'.$fetch_delete_image['image']);
+      }
+      $delete_post = $db->prepare("DELETE FROM `posts` WHERE post_id = ?");
+      $delete_post->execute([$p_id]);
+      $delete_comments = $db->prepare("DELETE FROM `comments` WHERE post_id = ?");
+      $delete_comments->execute([$p_id]);
+      $message[] = 'post deleted successfully!';
+
+   }
 }
 
 ?>
@@ -46,6 +77,8 @@ if(isset($_POST['delete'])){
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
 
     <link rel="stylesheet" href="assets/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+    <link rel="stylesheet" href="assets/sweetalert2/dist/sweetalert2.min.css">
 
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
 
@@ -83,30 +116,33 @@ if(isset($_POST['delete'])){
                <div class="card-body">
                   <div class="row">
                      <div class="col-md-12">
-                        <?php
-                        $journalID = $_GET['journalID'];
-                        $sql = $db->query("SELECT * FROM posts JOIN Users ON posts.userID = Users.userID JOIN mood ON posts.moodID = mood.moodID WHERE journal_id = $journalID");
-                        foreach($sql as $display){
-                           ?>
-                           <h3 class="text-primary text-center"><?php echo $display['title'];?></h3>
-                           <br>
-                           <div class="offset-sm-1 col-md-10">
-                              <p class="text-muted">Content: <?php echo $display['content'];?></p>
+                        <form action="" method="post">
+                           <?php
+                           $journalID = $_GET['journalID'];
+                           $sql = $db->query("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = $journalID");
+                           foreach($sql as $display){
+                              ?>
+                              <h3 class="text-primary text-center"><?php echo $display['title'];?></h3>
                               <br>
-                              <p class="text-muted">Mood: <?php echo $display['description'];?> <?php echo $display['mood'];?></p>
-                              <br>
-                              <p class="text-muted">Thoughts and Feelings: <?php echo $display['thought'];?></p>
-                              <br>
-                              <p class="text-muted">Status: <?php echo $display['status'];?></p>
-                              <br>
-                              <div class="text-center mt-5 mb-3">
-                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                 <a href="#" class="btn btn-sm btn-warning">Share</a>
+                              <div class="offset-sm-1 col-md-10">
+                                 <p class="text-muted">Content: <?php echo $display['content'];?></p>
+                                 <br>
+                                 <p class="text-muted">Mood: <?php echo $display['description'];?> <?php echo $display['mood'];?></p>
+                                 <br>
+                                 <p class="text-muted">Thoughts and Feelings: <?php echo $display['thought'];?></p>
+                                 <br>
+                                 <p class="text-muted">Status: <?php echo $display['status'];?></p>
+                                 <br>
+                                 <div class="text-center mt-7 mb-3">
+                                    <a href="edit-journal.php?journalID=<?php echo $display['journal_id'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
+                                    <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-warning" name="status">Status</button>
+                                 </div>
                               </div>
-                           </div>
-                        <?php
-                        }
-                        ?>
+                           <?php
+                           }
+                           ?>
+                        </form>
                      </div>
                   </div>
                </div>
@@ -134,6 +170,8 @@ if(isset($_POST['delete'])){
    <script src="assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
    <script src="assets/js/adminlte.min.js"></script>
+
+   <script src="assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
    <script src="assets/js/activesidebar.js"></script>
 

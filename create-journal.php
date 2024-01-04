@@ -20,27 +20,27 @@ if($role != 2){
       $thought = $_POST['thought'];
       $status = 'Private';
       
-      $insert = $db->prepare("INSERT INTO `posts`(userID, title, content, moodID, thought, status) VALUES(?,?,?,?,?,?)");
+      $insert = $db->prepare("INSERT INTO journal(userID, title, content, moodID, thought, status) VALUES(?,?,?,?,?,?)");
       $insert->execute([$userID, $title, $content, $moodID, $thought, $status]);
       
       if($insert){
 
          ?>
-                <script type='text/javascript'>
-                    document.addEventListener("DOMContentLoaded", function(){
-                        Swal.fire({
-                            title: 'Register Completed!',
-                            text: 'Go to Login',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result)=>{
-                            if(result.isConfirmed){
-                                window.location.href = '#';
-                            }
-                        });
-                    });
-                </script>";
-                <?php
+         <script type='text/javascript'>
+            document.addEventListener("DOMContentLoaded", function(){
+               Swal.fire({
+                  title: 'Register Completed!',
+                     text: 'Go to Login',
+                     icon: 'success',
+                     confirmButtonText: 'OK'
+               }).then((result)=>{
+                  if(result.isConfirmed){
+                     window.location.href = '#';
+                  }
+               });
+            });
+         </script>";
+         <?php
 
       }
 
@@ -125,7 +125,7 @@ if($role != 2){
                                  </select>
                               </div>
                               <div class="form-group">
-                                 <label for="thought">What are your thoughts or feelings?</label>
+                                 <label for="thought">What are your thoughts and feelings?</label>
                                  <textarea id="thought" name="thought" class="form-control" rows="4" required></textarea>
                               </div>
                               <div class="form-group row">
