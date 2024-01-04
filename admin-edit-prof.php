@@ -69,7 +69,7 @@ if($role != 1){
                         confirmButtonText: 'OK'
                     }).then((result)=>{
                         if(result.isConfirmed){
-                            window.location.href = 'student-profile.php';
+                            window.location.href = 'admin-profile.php';
                         }
                     });
                 });
