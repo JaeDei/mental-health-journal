@@ -18,7 +18,7 @@ if($role != 2){
       $content = $_POST['content'];
       $moodID = $_POST['mood'];
       $thought = $_POST['thought'];
-      $status = 'private';
+      $status = 'Private';
       
       $insert = $db->prepare("INSERT INTO `posts`(userID, title, content, moodID, thought, status) VALUES(?,?,?,?,?,?)");
       $insert->execute([$userID, $title, $content, $moodID, $thought, $status]);

@@ -37,75 +37,105 @@ if(isset($_POST['delete'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>posts</title>
+   <title>mhj | View Journal Entry</title>
 
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="../css/admin_style.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-free/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/adminlte.min.css">
+
+    <link rel="stylesheet" href="assets/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+    <link rel="stylesheet" href="assets/css/adminlte.min.css">
 
 </head>
-<body>
-
-
-<section class="show-posts">
-
-   <h1 class="heading">your Journal</h1>
-
-   <div class="box-container">
-
+<body class="hold-transition sidebar-mini layout-fixed">
+   <div class="wrapper">
+        
       <?php
-         $select_posts = $db->prepare("SELECT * FROM `posts` WHERE userID = ?");
-         $select_posts->execute([$userID]);
-         if($select_posts->rowCount() > 0){
-            while($fetch_posts = $select_posts->fetch(PDO::FETCH_ASSOC)){
-               $post_id = $fetch_posts['post_id'];
-
-               $count_post_comments = $db->prepare("SELECT * FROM `comments` WHERE post_id = ?");
-               $count_post_comments->execute([$post_id]);
-               $total_post_comments = $count_post_comments->rowCount();
-
-
+      /* Navbar */
+      include('includes/student-navbar.php');
+      /* Sidebar */
+      include('includes/student-sidebar.php');
       ?>
-      <form method="post" class="box">
-         <input type="hidden" name="post_id" value="<?= $post_id; ?>">
-         <?php if($fetch_posts['image'] != ''){ ?>
-            <img src="assets/profile_img/<?= $fetch_posts['image']; ?>" class="image" alt="">
-         <?php } ?>
-         <div class="status" style="background-color:<?php if($fetch_posts['status'] == 'active'){echo 'limegreen'; }else{echo 'coral';}; ?>;"><?= $fetch_posts['status']; ?></div>
-            <div class="title"><?= $fetch_posts['title']; ?></div>
-         <div class="posts-content"><?= $fetch_posts['content']; ?></div>
-         <div class="icons">
 
-            <div class="comments"><i class="fas fa-comment"></i><span><?= $total_post_comments; ?></span></div>
-         </div>
-         <div class="flex-btn">
-            <a href="edit-journal.php?id=<?= $post_id; ?>" class="option-btn">edit</a>
-            <button type="submit" name="delete" class="delete-btn" onclick="return confirm('delete this post?');">delete</button>
-         </div>
-         <a href="read_post.php?post_id=<?= $post_id; ?>" class="btn">view post</a>
-      </form>
-      <?php
-            }
-         }else{
-            echo '<p class="empty">no posts added yet! <a href="create-journal.php" class="btn" style="margin-top:1.5rem;">add post</a></p>';
-         }
-      ?>
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+         <!-- Content Header (Page header) -->
+         <section class="content-header">
+            <div class="container-fluid">
+               <div class="row mb-2">
+                  <div class="col-sm-6">
+                     <h1>View Journal Entry</h1>
+                  </div>
+               </div>
+            </div><!-- /.container-fluid -->
+         </section>
+         <!-- Main content -->
+         <section class="content">
+
+            <!-- Default box -->
+            <div class="card">
+               <div class="card-header">
+                  <h3 class="card-title">Entry Detail</h3>
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <?php
+                        $journalID = $_GET['journalID'];
+                        $sql = $db->query("SELECT * FROM posts JOIN Users ON posts.userID = Users.userID JOIN mood ON posts.moodID = mood.moodID WHERE journal_id = $journalID");
+                        foreach($sql as $display){
+                           ?>
+                           <h3 class="text-primary text-center"><?php echo $display['title'];?></h3>
+                           <br>
+                           <div class="offset-sm-1 col-md-10">
+                              <p class="text-muted">Content: <?php echo $display['content'];?></p>
+                              <br>
+                              <p class="text-muted">Mood: <?php echo $display['description'];?> <?php echo $display['mood'];?></p>
+                              <br>
+                              <p class="text-muted">Thoughts and Feelings: <?php echo $display['thought'];?></p>
+                              <br>
+                              <p class="text-muted">Status: <?php echo $display['status'];?></p>
+                              <br>
+                              <div class="text-center mt-5 mb-3">
+                                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                 <a href="#" class="btn btn-sm btn-warning">Share</a>
+                              </div>
+                           </div>
+                        <?php
+                        }
+                        ?>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+         </section>
+         <!-- /.content -->
+
+      
+      </div>
+      <!-- /.content-wrapper -->
+    
+      <aside class="control-sidebar control-sidebar-dark">
+
+      </aside>
 
    </div>
+   
+   <script src="assets/js/jquery/jquery.min.js"></script>
 
+   <script src="assets/js/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-</section>
+   <script src="assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
+   <script src="assets/js/adminlte.min.js"></script>
 
-
-
-
-
-
-
-
+   <script src="assets/js/activesidebar.js"></script>
 
 </body>
 </html>

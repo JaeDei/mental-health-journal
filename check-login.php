@@ -4,6 +4,7 @@ if(isset($_SESSION['username']) || isset($_SESSION['email'])){
   $userID = $_SESSION['userID'];
   $username = $_SESSION['username'];
   $email = $_SESSION['email'];
+  
   $sql = $db->prepare("SELECT * FROM Users WHERE email = :email OR username = :username OR userID = :userID");
   $sql->bindParam(':email', $email, PDO::PARAM_STR);
   $sql->bindParam(':username', $username, PDO::PARAM_STR);

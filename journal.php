@@ -87,7 +87,7 @@ if($role != 2){
                               $queries = $db->query("SELECT * FROM posts JOIN mood ON posts.moodID = mood.moodID Where userID = $userID");
                               foreach($queries as $query){
                                 ?>
-                                <tr class="clickable-row" data-href="#">
+                                <tr class="clickable-row" data-href="view-journal.php?journalID=<?php echo $query['journal_id'];?>">
                                   <td><?php echo $query['journal_id'];?></td>
                                   <td><?php echo $query['title'];?></td>
                                   <td><?php echo $query['mood'];?></td>
@@ -109,13 +109,13 @@ if($role != 2){
                 <!-- /.container-fluid -->
               </section>
             </div>
-        <!-- /.content-wrapper -->
+            <!-- /.content-wrapper -->
     
             <aside class="control-sidebar control-sidebar-dark">
 
             </aside>
 
-          </div>
+    </div>
 
     <script src="assets/js/jquery/jquery.min.js"></script>
 
