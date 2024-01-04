@@ -25,6 +25,8 @@ if($role != 2){
 
     <link rel="stylesheet" href="assets/css/fontawesome-free/css/all.min.css">
 
+    <link rel="stylesheet" href="assets/overlayScrollbars/css/OverlayScrollbars.min.css">
+
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
 
 </head>
@@ -120,6 +122,8 @@ if($role != 2){
     <script src="assets/js/jquery/jquery.min.js"></script>
 
     <script src="assets/js/bootstrap/js//bootstrap.bundle.min.js"></script>
+
+    <script src="assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
     <script src="assets/js/adminlte.min.js"></script>
     
