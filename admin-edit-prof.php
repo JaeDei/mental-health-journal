@@ -51,13 +51,13 @@ if($role != 1){
             $update_prof->bindParam(':new_prof_pic', $new_prof_pic, PDO::PARAM_STR);
             $update_prof->bindParam(':userID', $userID, PDO::PARAM_INT);
             $update_prof->execute();
-
-            move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
             
             $old_prof_folder = 'assets/profile_img/'.$old_prof_pic;
             if(file_exists($old_prof_folder)){
                 unlink($old_prof_folder);
             }
+
+            move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
 
             ?>
             <script type='text/javascript'>

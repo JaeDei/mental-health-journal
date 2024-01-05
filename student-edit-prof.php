@@ -51,13 +51,13 @@ if($role != 2){
             $update_prof->bindParam(':new_prof_pic', $new_prof_pic, PDO::PARAM_STR);
             $update_prof->bindParam(':userID', $userID, PDO::PARAM_INT);
             $update_prof->execute();
-
-            move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
             
             $old_prof_folder = 'assets/profile_img/'.$old_prof_pic;
             if(file_exists($old_prof_folder)){
                 unlink($old_prof_folder);
             }
+            
+            move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
 
             ?>
             <script type='text/javascript'>
@@ -173,7 +173,7 @@ if($role != 2){
                                             <div class="form-group row">
                                                 <label for="new_prof_pic" class="col-sm-2 col-form-label">New Profile Picture</label>
                                                 <div class="col-sm-10">
-                                                <input type="file" id="new_prof_pic" name="new_prof_pic" accept="image/jpg, image/jpeg, image/png, image/webp" class="box" required/>
+                                                <input type="file" id="new_prof_pic" name="new_prof_pic" accept="image/jpg, image/jpeg, image/png, image/webp" class="box">
                                                 <input type="hidden" name="old_prof_pic" value="<?php echo $fetch['profile_pic'];?>">
                                                 </div>
                                             </div>
