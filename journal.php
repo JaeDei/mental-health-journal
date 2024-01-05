@@ -72,7 +72,7 @@ if($role != 2){
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                          <table id="dataTable" class="table table-bordered table-hover">
+                          <table id="dataTable" class="table table-bordered table-hover text-center">
                             <thead>
                               <tr>
                                 <th>Journal ID</th>
