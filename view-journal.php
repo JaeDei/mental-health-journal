@@ -6,60 +6,46 @@ require('includes/config.php');
 require('includes/db.php');
 require('check-login.php');
 
-if($role != 2){
-   unset($_SESSION);
-   header('location: unauthorized.php');
-}else{
+if ($role != 2) {
+    unset($_SESSION);
+    header('location: unauthorized.php');
+} else {
+    // Check if 'journalID' is set in the URL
+    $journalID = isset($_GET['journalID']) ? $_GET['journalID'] : null;
 
-   $journalID = $_GET['journalID'];
+    if ($journalID !== null) {
 
-   if(isset($_POST['status'])){
-      $status = 'Public';
-      ?>
-      <script type='text/javascript'>
-         document.addEventListener("DOMContentLoaded", function(){
-            Swal.fire({
-               title: "Share this Entry to Public?",
-               icon: "question",
-               showCancelButton: true,
-               confirmButtonColor: "#3085d6",
-               cancelButtonColor: "#d33",
-               confirmButtonText: "Yes!"
-            }).then((result) => {
-               if (result.isConfirmed) {
-                  Swal.fire({
-                     title: "Shared!",
-                     text: "Your Entry set to Public!",
-                     icon: "success"
-                  });
-                  <?php
-                  $update = $db->prepare("UPDATE journal SET status = ? WHERE journal_id = ?");
-                  $update->execute([$status, $journalID]);
-                  ?>
-               }
-            });
-         });
-      </script>
-      <?php
+        if (isset($_POST['status'])) {
+            $status = 'Public';
+
+            // Use prepared statements to avoid SQL injection
+            $update = $db->prepare("UPDATE journal SET status = ? WHERE journal_id = ?");
+            $update->execute([$status, $journalID]);
+
+            // Display success message using JavaScript
+            echo "
+                <script type='text/javascript'>
+                    document.addEventListener('DOMContentLoaded', function(){
+                        Swal.fire({
+                            title: 'Shared!',
+                            text: 'Your Entry set to Public!',
+                            icon: 'success'
+                        });
+                    });
+                </script>
+            ";
+        }
+
+        if (isset($_POST['delete'])) {
+
+            $delete_post = $db->prepare("DELETE FROM `journal` WHERE journal_id = ?");
+            $delete_post->execute([$journalID]);
+     
+
+            $message[] = 'post deleted successfully!';
+        }
+    }
    }
-
-   if(isset($_POST['delete'])){
-
-      $delete_image = $db->prepare("SELECT * FROM `posts` WHERE post_id = ?");
-      $delete_image->execute([$p_id]);
-      $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
-      if($fetch_delete_image['image'] != ''){
-         unlink('assets/profile_img/'.$fetch_delete_image['image']);
-      }
-      $delete_post = $db->prepare("DELETE FROM `posts` WHERE post_id = ?");
-      $delete_post->execute([$p_id]);
-      $delete_comments = $db->prepare("DELETE FROM `comments` WHERE post_id = ?");
-      $delete_comments->execute([$p_id]);
-      $message[] = 'post deleted successfully!';
-
-   }
-}
-
 ?>
 
 <!DOCTYPE html>
