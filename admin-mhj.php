@@ -12,13 +12,16 @@ if($role != 1){
 }else{
     
     if (!isset($_SESSION['user']) || $_SESSION['user'] !== true) {
-            ?>
-            <script type='text/javascript'>
-                document.addEventListener("DOMContentLoaded", function(){
-                    Swal.fire('Welcome Back!, Admin <?php echo $fetch['firstname'];?>');
-                });
-            </script>
-            <?php
+
+        $firstname = $fetch['firstname'];
+            
+            echo"
+                <script type='text/javascript'>
+                    document.addEventListener('DOMContentLoaded', function(){
+                        Swal.fire('Welcome Back!, Admin $firstname');
+                    });
+                </script>";
+
             $_SESSION['user'] = true;
     }
 }

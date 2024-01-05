@@ -36,7 +36,7 @@ if ($role != 2) {
         }
 
         if (isset($_POST['delete'])) {
-         $delete_post = $db->prepare("DELETE FROM `journal` WHERE journal_id = ?");
+         $delete_post = $db->prepare("DELETE FROM journal WHERE journal_id = ?");
          
          // Display confirmation dialog using JavaScript
          echo "
@@ -51,14 +51,17 @@ if ($role != 2) {
                          cancelButtonColor: '#3085d6',
                          confirmButtonText: 'Yes, delete it!'
                      }).then((result) => {
-                         if (result.isConfirmed) {
-                             // If user confirms, proceed with deletion
-                             window.location.href = 'delete-journal.php?journalID=$journalID';
-                         } else {
-                             // If user cancels, do nothing or perform any other desired action
-                             // For example, redirect back to the journal entry view
-                             window.location.href = 'view-journal.php?journalID=$journalID';
-                         }
+                        if (result.isConfirmed) {
+                           Swal.fire({
+                              title: 'Deleted!',
+                              text: 'Entry has been deleted.',
+                              icon: 'success'
+                           }).then(() => {
+                              window.location.href = 'delete-journal.php?journalID=$journalID';
+                           });
+                        } else {
+                           window.location.href = 'view-journal.php?journalID=$journalID';
+                        }
                      });
                  });
              </script>

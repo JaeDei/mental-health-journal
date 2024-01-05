@@ -78,23 +78,22 @@ if(isset($_POST['submit'])){
                 $insert_role_perm = $db->prepare("INSERT INTO role_perm(userID, roleID) VALUES(?, ?)");
                 $insert_role_perm->execute([$userID, $roleID]);
                 
-                ?>
-                <script type='text/javascript'>
-                    document.addEventListener("DOMContentLoaded", function(){
-                        Swal.fire({
-                            title: 'Register Completed!',
-                            text: 'Go to Login',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result)=>{
-                            if(result.isConfirmed){
-                                window.location.href = 'login.php';
-                            }
+                echo"
+                    <script type='text/javascript'>
+                        document.addEventListener('DOMContentLoaded', function(){
+                            Swal.fire({
+                                title: 'Register Completed!',
+                                text: 'Go to Login',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result)=>{
+                                if(result.isConfirmed){
+                                    window.location.href = 'login.php';
+                                }
+                            });
                         });
-                    });
-                </script>";
-                <?php
-            
+                    </script>";
+                
             }
         }
     }

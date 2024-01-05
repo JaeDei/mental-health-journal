@@ -15,33 +15,35 @@ if($role != 2){
     $select->execute([$fetch['userID']]);
     $login_achievement = $select->fetch(PDO::FETCH_ASSOC);
 
+    $firstname = $fetch['firstname'];
+
     if($select->rowCount() < 1){
         $achievement = $db->prepare("INSERT INTO loginAchievement(userID) VALUES(?)");
         $achievement->execute([$fetch['userID']]);
 
-        ?>
-        <script type='text/javascript'>
-            document.addEventListener("DOMContentLoaded", function(){
-                Swal.fire({
-                    title: 'Congratulation!',
-                    text: 'Achievement Unlocked: First Login!',
-                    imageUrl: 'assets/images/achievements/first_login.png',
-                    imageWidth: 200,
-                    imageHeight: 200,
-                    imageAlt: 'Custom image'
+        echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!, Student $firstname',
+                        text: 'Achievement Unlocked: First Login!',
+                        imageUrl: 'assets/images/achievements/first_login.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
                 });
-            });
-        </script>
-        <?php
+            </script>";
     }else{
         if (!isset($_SESSION['user']) || $_SESSION['user'] !== true) {
-            ?>
-            <script type='text/javascript'>
-                document.addEventListener("DOMContentLoaded", function(){
-                    Swal.fire('Welcome Back!, Student <?php echo $fetch['firstname'];?>');
-                });
-            </script>
-            <?php
+
+            echo"
+                <script type='text/javascript'>
+                    document.addEventListener('DOMContentLoaded', function(){
+                        Swal.fire('Welcome Back!, Student $firstname');
+                    });
+                </script>";
+            
             $_SESSION['user'] = true;
         }
     }

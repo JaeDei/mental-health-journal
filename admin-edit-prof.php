@@ -59,22 +59,21 @@ if($role != 1){
 
             move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
 
-            ?>
-            <script type='text/javascript'>
-                document.addEventListener("DOMContentLoaded", function(){
-                    Swal.fire({
-                        title: 'Update Profile Completed!',
-                        text: 'Go back to Profile',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result)=>{
-                        if(result.isConfirmed){
-                            window.location.href = 'admin-profile.php';
-                        }
+            echo"
+                <script type='text/javascript'>
+                    document.addEventListener('DOMContentLoaded', function(){
+                        Swal.fire({
+                            title: 'Update Profile Completed!',
+                            text: 'Go back to Profile',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                window.location.href = 'admin-profile.php';
+                            }
+                        });
                     });
-                });
-            </script>
-            <?php
+                </script>";
 
         }
 
