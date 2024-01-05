@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 require('includes/config.php');
@@ -37,16 +36,37 @@ if ($role != 2) {
         }
 
         if (isset($_POST['delete'])) {
-
-            $delete_post = $db->prepare("DELETE FROM `journal` WHERE journal_id = ?");
-            $delete_post->execute([$journalID]);
-     
-
-            $message[] = 'post deleted successfully!';
-        }
-    }
+         $delete_post = $db->prepare("DELETE FROM `journal` WHERE journal_id = ?");
+         
+         // Display confirmation dialog using JavaScript
+         echo "
+             <script type='text/javascript'>
+                 document.addEventListener('DOMContentLoaded', function(){
+                     Swal.fire({
+                         title: 'Are you sure?',
+                         text: 'You won\'t be able to recover this entry!',
+                         icon: 'warning',
+                         showCancelButton: true,
+                         confirmButtonColor: '#d33',
+                         cancelButtonColor: '#3085d6',
+                         confirmButtonText: 'Yes, delete it!'
+                     }).then((result) => {
+                         if (result.isConfirmed) {
+                             // If user confirms, proceed with deletion
+                             window.location.href = 'delete-journal.php?journalID=$journalID';
+                         } else {
+                             // If user cancels, do nothing or perform any other desired action
+                             // For example, redirect back to the journal entry view
+                             window.location.href = 'view-journal.php?journalID=$journalID';
+                         }
+                     });
+                 });
+             </script>
+         ";
+     }
    }
-?>
+}
+     ?>
 
 <!DOCTYPE html>
 <html lang="en">
