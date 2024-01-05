@@ -92,6 +92,39 @@ if($role != 2){
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
+            <!-- PIE CHART -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Mood Chart</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    <?php
+                    $pie = $db->prepare("SELECT mood, description FROM mood JOIN journal ON mood.moodID = journal.moodID WHERE userID = $userID");
+                    $pie->execute();
+                    $data = $pie->fetchAll(PDO::FETCH_ASSOC);
+
+                    $moods = array_count_values(array_column($data, 'mood'));
+                    $label = array_keys($moods);
+                    $count = array_values($moods);
+
+                    $data = [
+                        'labels' => $label,
+                        'datasets' => [
+                            [
+                            'data' => $count,
+                            'backgroundColor' => ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#e4d6de', '#d2d6de'],
+                            ],
+                        ],
+                    ];
+                    
+                    $pieData = json_encode($data);
+
+                    ?>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
         <!-- /.content-wrapper -->
     
@@ -111,7 +144,25 @@ if($role != 2){
 
     <script src="assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
+    <script src="assets/js/chart.js/Chart.min.js"></script>
+
     <script src="assets/js/activesidebar.js"></script>
+
+    <script>
+        $(function () {
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData        = <?= $pieData ?>;
+            var pieOptions = {
+                maintainAspectRatio : false,
+                responsive : true,
+            }
+            new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            });
+        });
+    </script>
 
 </body>
 </html>
