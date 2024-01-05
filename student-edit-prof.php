@@ -26,7 +26,7 @@ if($role != 2){
         $new_prof_pic = filter_var($new_prof_pic, FILTER_SANITIZE_STRING);
         $new_prof_size = $_FILES['new_prof_pic']['size'];
         $new_prof_tmp_name = $_FILES['new_prof_pic']['tmp_name'];
-        $new_prof_folder = 'assets/profile_img'.$new_prof_pic;
+        $new_prof_folder = 'assets/profile_img/'.$new_prof_pic;
 
         if(!preg_match("/^[a-zA-Z ]+$/", $firstname)){
 
@@ -51,14 +51,14 @@ if($role != 2){
             $update_prof->bindParam(':new_prof_pic', $new_prof_pic, PDO::PARAM_STR);
             $update_prof->bindParam(':userID', $userID, PDO::PARAM_INT);
             $update_prof->execute();
-            
+
             $old_prof_folder = 'assets/profile_img/'.$old_prof_pic;
             if(file_exists($old_prof_folder)){
                 unlink($old_prof_folder);
             }
-            
-            move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
 
+            move_uploaded_file($new_prof_tmp_name, $new_prof_folder);
+            
             ?>
             <script type='text/javascript'>
                 document.addEventListener("DOMContentLoaded", function(){

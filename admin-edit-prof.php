@@ -26,7 +26,7 @@ if($role != 1){
         $new_prof_pic = filter_var($new_prof_pic, FILTER_SANITIZE_STRING);
         $new_prof_size = $_FILES['new_prof_pic']['size'];
         $new_prof_tmp_name = $_FILES['new_prof_pic']['tmp_name'];
-        $new_prof_folder = 'assets/profile_img'.$new_prof_pic;
+        $new_prof_folder = 'assets/profile_img/'.$new_prof_pic;
 
         if(!preg_match("/^[a-zA-Z ]+$/", $firstname)){
 
