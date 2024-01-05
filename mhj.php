@@ -105,16 +105,14 @@ if($role != 2){
                                 <div class="card-body">
                                     <canvas id="pieChart" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
                                     <?php
-                                    $pie = $db->prepare("SELECT mood, description FROM mood JOIN journal ON mood.moodID = journal.moodID WHERE userID = $userID");
+                                    $pie = $db->prepare("SELECT mood FROM mood JOIN journal ON mood.moodID = journal.moodID WHERE userID = $userID");
                                     $pie->execute();
                                     $data = $pie->fetchAll(PDO::FETCH_ASSOC);
 
                                     $moods = array_count_values(array_column($data, 'mood'));
-                                    $descriptions = array_column($data, 'description');
                                     $totalCount = array_sum($moods);
 
                                     $mood = array_map('html_entity_decode', array_keys($moods));
-                                    $description = array_values($descriptions);
                                     
                                     $count = array_values($moods);
 
