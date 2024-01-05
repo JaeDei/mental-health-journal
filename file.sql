@@ -40,6 +40,37 @@ CREATE TABLE loginAchievement(
     FOREIGN KEY(userID) REFERENCES Users(userID)
 );
 
+CREATE TABLE mood(
+    moodID int not null auto_increment,
+    mood varchar(10) not null,
+    description varchar(20) not null,
+    PRIMARY KEY(moodID)
+);
+
+INSERT INTO mood(mood, description)
+VALUES          ('&#128513;', 'Excited'),
+                ('&#129402;', 'Sad'),
+                ('&#128544;', 'Angry'),
+                ('&#128567;', 'Sick'),
+                ('&#128558;', 'Surprised'),
+                ('&#128522;', 'Happy'),
+                ('&#129393;', 'Bored');
+
+create table journal(
+    journal_id int auto_increment not null,
+    userID int not null,
+    title varchar(100),
+    content varchar(355),
+    moodID int not null,
+    thought varchar(355),
+    date date,
+    status varchar(10),
+    PRIMARY KEY (journal_id),
+    FOREIGN KEY(userID) REFERENCES users(userID),
+    FOREIGN KEY(moodID) REFERENCES mood(moodID)
+);
+
+
 
 
 
