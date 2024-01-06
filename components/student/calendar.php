@@ -29,7 +29,7 @@ require('../../check-login.php');
 
     <link rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
-    <link rel="stylesheet"  href="styles.css">
+    <link rel="stylesheet"  href="../../styles.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -160,7 +160,7 @@ require('../../check-login.php');
 
     <script src="../../assets/js/activesidebar.js"></script>
 
-    <script src="calendar.js"></script>
+    <script src="../../calendar.js"></script>
    
    
 

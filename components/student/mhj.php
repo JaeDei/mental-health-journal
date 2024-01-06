@@ -155,7 +155,7 @@ if($role != 2){
                                             ?>
                                             <li class="item">
                                                 <div class="product-img">
-                                                    <?php echo $dis['mood'];?>
+                                                    <p style="font-size: 30px;"><?php echo $dis['mood'];?></p>
                                                 </div>
                                                 <div class="product-info">
                                                     <a href="javascript:void(0)" class="product-title"><?php echo $dis['title'];?></a>
