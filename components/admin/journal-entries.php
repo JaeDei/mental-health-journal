@@ -8,7 +8,7 @@ require('../../check-login.php');
 
 if($role != 1){
     unset($_SESSION);
-    header('location: unauthorized.php');
+    header('location: ../../unauthorized.php');
 }
 
 ?>
@@ -18,7 +18,7 @@ if($role != 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mhj | Admin Journal Entries</title>
+    <title>mhj | Admin-Student Journal Entries</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -82,7 +82,7 @@ if($role != 1){
                               $queries = $db->query("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID JOIN Users ON journal.userID = Users.userID");
                               foreach($queries as $query){
                                 ?>
-                                <tr class="clickable-row" data-href="view-journal.php?journalID=<?php echo $query['journal_id'];?>">
+                                <tr class="clickable-row" data-href="view-entry.php?journalID=<?php echo $query['journal_id'];?>">
                                   <td><?php echo $query['journal_id'];?></td>
                                   <td><?php echo $query['username'];?></td>
                                   <td><?php echo $query['title'];?></td>

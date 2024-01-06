@@ -8,7 +8,7 @@ require('../../check-login.php');
 
 if($role != 1){
     unset($_SESSION);
-    header('location: unauthorized.php');
+    header('location: ../../unauthorized.php');
 }else{
     
     if (!isset($_SESSION['user']) || $_SESSION['user'] !== true) {

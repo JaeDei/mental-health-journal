@@ -7,7 +7,7 @@ require('../../check-login.php');
 
 if ($role != 2) {
     unset($_SESSION);
-    header('location: unauthorized.php');
+    header('location: ../../unauthorized.php');
 }else{
    
    $journalID = isset($_GET['journalID']) ? $_GET['journalID'] : null;
@@ -101,7 +101,7 @@ if ($role != 2) {
                               text: 'Entry has been deleted.',
                               icon: 'success'
                            }).then(() => {
-                              window.location.href = 'delete-journal.php?journalID=$journalID';
+                              window.location.href = '../../delete-journal.php?journalID=$journalID&role=$role';
                            });
                         } else {
                            window.location.href = 'view-journal.php?journalID=$journalID';

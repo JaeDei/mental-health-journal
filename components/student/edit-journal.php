@@ -9,7 +9,7 @@ require('../../check-login.php');
 
 if($role != 2){
    unset($_SESSION);
-   header('location: unauthorized.php');
+   header('location: ../../unauthorized.php');
 }else{
 if(isset($_POST['save'])){
 
