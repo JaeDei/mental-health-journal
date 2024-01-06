@@ -126,13 +126,11 @@ if($role != 1){
 
     <script src="../../assets/js/jquery/jquery.min.js"></script>
 
-    <script src="../../assets/js/bootstrap/js//bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script src="../../assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
     <script src="../../assets/js/adminlte.min.js"></script>
-
-    <script src="../../assets/js/demo.js"></script>
     
 </body>
 </html>
