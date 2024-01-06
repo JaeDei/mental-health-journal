@@ -40,7 +40,7 @@
         </li>
         <li class="nav-item">
           <a href="student-lists.php" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
+            <i class="nav-icon fas fa-users"></i>
             <p>
               Student Lists
             </p>
