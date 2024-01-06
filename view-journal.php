@@ -8,65 +8,117 @@ require('check-login.php');
 if ($role != 2) {
     unset($_SESSION);
     header('location: unauthorized.php');
-} else {
-    // Check if 'journalID' is set in the URL
-    $journalID = isset($_GET['journalID']) ? $_GET['journalID'] : null;
+}else{
+   
+   $journalID = isset($_GET['journalID']) ? $_GET['journalID'] : null;
 
-    if ($journalID !== null) {
+   if ($journalID !== null) {
 
-        if (isset($_POST['status'])) {
+      if (isset($_POST['status'])) {
+         
+         $select = $db->prepare("SELECT status FROM journal WHERE journal_id = ?");
+         $select->execute([$journalID]);
+         $check_status = $select->fetch(PDO::FETCH_ASSOC);
+
+         if($check_status['status'] == 'Public'){
+            $status = 'Private';
+
+            echo "
+               <script type='text/javascript'>
+                  document.addEventListener('DOMContentLoaded', function(){
+                     Swal.fire({
+                        title: 'Private this Entry?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, private it!'
+                     }).then((result) => {
+                        if (result.isConfirmed) {
+                           Swal.fire({
+                              title: 'Done!',
+                              text: 'Entry set to private.',
+                              icon: 'success'
+                           }).then(() => {
+                              window.location.href = 'update-journal.php?journalID=$journalID&status=$status';
+                           });
+                        } else {
+                           window.location.href = 'view-journal.php?journalID=$journalID';
+                        }
+                     });
+                  });
+               </script>";
+
+         }else{
             $status = 'Public';
 
-            // Use prepared statements to avoid SQL injection
-            $update = $db->prepare("UPDATE journal SET status = ? WHERE journal_id = ?");
-            $update->execute([$status, $journalID]);
-
-            // Display success message using JavaScript
             echo "
-                <script type='text/javascript'>
-                    document.addEventListener('DOMContentLoaded', function(){
-                        Swal.fire({
-                            title: 'Shared!',
-                            text: 'Your Entry set to Public!',
-                            icon: 'success'
-                        });
-                    });
-                </script>
-            ";
-        }
-
-        if (isset($_POST['delete'])) {
-         $delete_post = $db->prepare("DELETE FROM `journal` WHERE journal_id = ?");
-         
-         // Display confirmation dialog using JavaScript
-         echo "
-             <script type='text/javascript'>
-                 document.addEventListener('DOMContentLoaded', function(){
+               <script type='text/javascript'>
+                  document.addEventListener('DOMContentLoaded', function(){
                      Swal.fire({
-                         title: 'Are you sure?',
-                         text: 'You won\'t be able to recover this entry!',
-                         icon: 'warning',
-                         showCancelButton: true,
-                         confirmButtonColor: '#d33',
-                         cancelButtonColor: '#3085d6',
-                         confirmButtonText: 'Yes, delete it!'
+                        title: 'Public this Entry?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, public it!'
                      }).then((result) => {
-                         if (result.isConfirmed) {
-                             // If user confirms, proceed with deletion
-                             window.location.href = 'delete-journal.php?journalID=$journalID';
-                         } else {
-                             // If user cancels, do nothing or perform any other desired action
-                             // For example, redirect back to the journal entry view
-                             window.location.href = 'view-journal.php?journalID=$journalID';
-                         }
+                        if (result.isConfirmed) {
+                           Swal.fire({
+                              title: 'Done!',
+                              text: 'Entry set to public.',
+                              icon: 'success'
+                           }).then(() => {
+                              window.location.href = 'update-journal.php?journalID=$journalID&status=$status';
+                           });
+                        } else {
+                           window.location.href = 'view-journal.php?journalID=$journalID';
+                        }
                      });
-                 });
-             </script>
-         ";
-     }
+                  });
+               </script>";
+
+         }
+      
+      }else{
+         if (isset($_POST['delete'])) {
+         
+            echo "
+               <script type='text/javascript'>
+                  document.addEventListener('DOMContentLoaded', function(){
+                     Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You won\'t be able to recover this entry!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!'
+                     }).then((result) => {
+                        if (result.isConfirmed) {
+                           Swal.fire({
+                              title: 'Deleted!',
+                              text: 'Entry has been deleted.',
+                              icon: 'success'
+                           }).then(() => {
+                              window.location.href = 'delete-journal.php?journalID=$journalID';
+                           });
+                        } else {
+                           window.location.href = 'view-journal.php?journalID=$journalID';
+                        }
+                     });
+                  });
+               </script>";
+     
+         }
+   
+      }
+
    }
+
 }
-     ?>
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">

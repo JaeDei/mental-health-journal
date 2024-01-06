@@ -25,22 +25,26 @@ if($role != 2){
       
       if($insert){
 
-         ?>
-         <script type='text/javascript'>
-            document.addEventListener("DOMContentLoaded", function(){
-               Swal.fire({
-                  title: 'Register Completed!',
-                     text: 'Go to Login',
-                     icon: 'success',
-                     confirmButtonText: 'OK'
-               }).then((result)=>{
-                  if(result.isConfirmed){
-                     window.location.href = '#';
-                  }
+         $journalID = $db->lastInsertId();
+         $select = $db->prepare("SELECT * FROM journal WHERE journal_id = ? AND userID = ?");
+         $select->execute([$journalID, $userID]);
+         $select_id = $select->fetch(PDO::FETCH_ASSOC);
+         $select_journalID = $select_id['journal_id'];
+
+         echo"
+            <script type='text/javascript'>
+               document.addEventListener('DOMContentLoaded', function(){
+                  Swal.fire({
+                     title: 'Entry Completed!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                  }).then((result)=>{
+                     if(result.isConfirmed){
+                        window.location.href = 'view-journal.php?journalID=$select_journalID';
+                     }
+                  });
                });
-            });
-         </script>";
-         <?php
+            </script>";
 
       }
 

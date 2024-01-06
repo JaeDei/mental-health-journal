@@ -1,4 +1,5 @@
 <?php
+
 require('includes/config.php');
 require('includes/db.php');
 
@@ -12,4 +13,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['journalID'])) {
     header('Location: journal.php');
     exit();
 }
+
 ?>

@@ -15,33 +15,35 @@ if($role != 2){
     $select->execute([$fetch['userID']]);
     $login_achievement = $select->fetch(PDO::FETCH_ASSOC);
 
+    $firstname = $fetch['firstname'];
+
     if($select->rowCount() < 1){
         $achievement = $db->prepare("INSERT INTO loginAchievement(userID) VALUES(?)");
         $achievement->execute([$fetch['userID']]);
 
-        ?>
-        <script type='text/javascript'>
-            document.addEventListener("DOMContentLoaded", function(){
-                Swal.fire({
-                    title: 'Congratulation!',
-                    text: 'Achievement Unlocked: First Login!',
-                    imageUrl: 'assets/images/achievements/first_login.png',
-                    imageWidth: 200,
-                    imageHeight: 200,
-                    imageAlt: 'Custom image'
+        echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!, Student $firstname',
+                        text: 'Achievement Unlocked: First Login!',
+                        imageUrl: 'assets/images/achievements/first_login.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
                 });
-            });
-        </script>
-        <?php
+            </script>";
     }else{
         if (!isset($_SESSION['user']) || $_SESSION['user'] !== true) {
-            ?>
-            <script type='text/javascript'>
-                document.addEventListener("DOMContentLoaded", function(){
-                    Swal.fire('Welcome Back!, Student <?php echo $fetch['firstname'];?>');
-                });
-            </script>
-            <?php
+
+            echo"
+                <script type='text/javascript'>
+                    document.addEventListener('DOMContentLoaded', function(){
+                        Swal.fire('Welcome Back!, Student $firstname');
+                    });
+                </script>";
+            
             $_SESSION['user'] = true;
         }
     }
@@ -90,6 +92,56 @@ if($role != 2){
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- PIE CHART -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Mood Chart</h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="pieChart" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
+                                    <?php
+                                    $pie = $db->prepare("SELECT mood FROM mood JOIN journal ON mood.moodID = journal.moodID WHERE userID = $userID");
+                                    $pie->execute();
+                                    $data = $pie->fetchAll(PDO::FETCH_ASSOC);
+
+                                    $moods = array_count_values(array_column($data, 'mood'));
+                                    $totalCount = array_sum($moods);
+
+                                    $mood = array_map('html_entity_decode', array_keys($moods));
+                                    
+                                    $count = array_values($moods);
+
+                                    $percentage = array_map(function ($count) use ($totalCount) {
+                                        $percent = round(($count / $totalCount) * 100, 2);
+                                        return $percent;
+                                    }, $count);
+
+                                    $data = [
+                                        'labels' => $mood,
+                                        'datasets' => [
+                                            [
+                                            'data' => $percentage,
+                                            'backgroundColor' => ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#e4d6de', '#d2d6de'],
+                                            ],
+                                        ],
+                                    ];
+                                    
+                                    $pieData = json_encode($data);
+
+                                    ?>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
         <!-- /.content-wrapper -->
     
@@ -109,7 +161,35 @@ if($role != 2){
 
     <script src="assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
+    <script src="assets/js/chart.js/Chart.min.js"></script>
+
     <script src="assets/js/activesidebar.js"></script>
+
+    <script>
+        $(function () {
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData        = <?= $pieData ?>;
+            var pieOptions = {
+                maintainAspectRatio : false,
+                responsive : true,
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                            var percent = dataset.data[tooltipItem.index];
+                            var label = data.labels[tooltipItem.index];
+                            return label + ' : ' + percent + '%';
+                        }
+                    }
+                },
+            }
+            new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            });
+        });
+    </script>
 
 </body>
 </html>
