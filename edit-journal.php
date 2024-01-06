@@ -17,18 +17,16 @@ if(isset($_POST['save'])){
    $select_journal = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
    $select_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
    $select_journal->execute();
-   $select_journal->execute();
    $title = $_POST['title'];
    $content = $_POST['content'];
    $moodID = $_POST['mood'];
    $thought = $_POST['thought'];
    $status = 'Private';
 
-   $update_journal = $db->prepare("UPDATE journal SET title = ?, content = ?, thought= ?, status = ? WHERE journal_id = ?");
-   $update_journal->execute([$title, $content, $thought, $status, $journal_id]);
+   $update_journal = $db->prepare("UPDATE journal SET title = ?, content = ?, thought = ?, status = ?, moodID = ? WHERE journal_id = ?");
+   $update_journal->execute([$title, $content, $thought, $status, $moodID, $journal_id]);
+
 }
-
-
 }
 
 ?>
@@ -108,7 +106,7 @@ if(isset($_POST['save'])){
                                  $queries = $db->query("SELECT * FROM mood");
                                  foreach ($queries as $query) {
                                  ?>
-                                     <option value="<?php echo $query['moodID']; ?>" <?php echo ($query['moodID'] == $fetch_journal['mood']) ? 'selected' : ''; ?>><?php echo $query['description']; ?> <?php echo $query['mood']; ?></option>
+                                     <option value="<?php echo $query['moodID']; ?>" <?php echo ($query['mood'] == $fetch_journal['mood']) ? 'selected' : ''; ?>><?php echo $query['description']; ?> <?php echo $query['mood']; ?></option>
                                  <?php
                                  }
                                  ?>
@@ -121,11 +119,11 @@ if(isset($_POST['save'])){
                          <div class="form-group row">
                              <div class="offset-sm-0 col-sm-10">
                              <input type="submit" name="save" value="Save your Journal" class="btn btn-success">
+                             <a href="journal.php" class="btn btn-success">go Back</a>
                            
                               </div>
                          </div>
-                     </form>
-                     <?php
+                         <?php
                            } else {
                                     echo '<p class="empty">No posts found!</p>';
                                             ?>
@@ -136,6 +134,8 @@ if(isset($_POST['save'])){
              <?php
                                          }
                  ?>
+                     </form>
+            
                  </div>
      
    
