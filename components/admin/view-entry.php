@@ -68,8 +68,6 @@ if ($role != 1) {
 
     <link rel="stylesheet" href="../../assets/sweetalert2/dist/sweetalert2.min.css">
 
-    <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
    <div class="wrapper">
