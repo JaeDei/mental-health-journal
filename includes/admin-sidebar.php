@@ -34,9 +34,24 @@
           <a href="journal-entries.php" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
             <p>
-              Journal Entries
+              Students Journals
+              <i class="right fas fa-angle-left"></i>
             </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="journal-entries.php" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Journal Entries</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="daily-entries.php" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Daily Journal Entries</p>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a href="calendar.php" class="nav-link">

@@ -34,7 +34,7 @@ if($role != 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mhj</title>
+    <title>mhj | Admin</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -81,7 +81,7 @@ if($role != 1){
                         $sqlCount1 = $sql1->rowCount();
                         ?>
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box" type="button" onclick="window.location.href = '#'">
+                            <div class="info-box" type="button" onclick="window.location.href = 'journal-entries.php'">
                                 <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
 
                                 <div class="info-box-content">
@@ -100,7 +100,7 @@ if($role != 1){
                         $sqlCount2 = $sql2->rowCount();
                         ?>
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box" type="button" onclick="window.location.href = '#'">
+                            <div class="info-box" type="button" onclick="window.location.href = 'daily-entries.php'">
                                 <span class="info-box-icon bg-success"><i class="far fa-envelope"></i></span>
 
                                 <div class="info-box-content">
