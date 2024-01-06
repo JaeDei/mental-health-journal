@@ -100,7 +100,7 @@ if($role != 1){
                         $sqlCount2 = $sql2->rowCount();
                         ?>
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box" type="button" onclick="window.location.href = 'daily-entries.php'">
+                            <div class="info-box" type="button" onclick="window.location.href = 'journal-entries.php'">
                                 <span class="info-box-icon bg-success"><i class="far fa-envelope"></i></span>
 
                                 <div class="info-box-content">

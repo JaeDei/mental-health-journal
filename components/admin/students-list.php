@@ -18,7 +18,7 @@ if($role != 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mhj | Admin Journal Entries</title>
+    <title>mhj | Admin Students List</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -51,7 +51,7 @@ if($role != 1){
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Daily Journal Entries</h1>
+                            <h1>Students List</h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
@@ -63,31 +63,29 @@ if($role != 1){
                     <div class="col-12">
                       <div class="card text-center">
                         <div class="card-header">
-                          <h3 class="card-title">Entries</h3>
+                          <h3 class="card-title">List</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                           <table id="dataTable" class="table table-bordered table-hover text-center">
                             <thead>
                               <tr>
-                                <th>Journal ID</th>
+                                <th>User ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Username</th>
-                                <th>Title</th>
-                                <th>Mood</th>
-                                <th>Date & Time</th>
                               </tr>
                             </thead>
                             <tbody>
                               <?php
-                              $queries = $db->query("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID JOIN Users ON journal.userID = Users.userID WHERE DATE(date) = CURDATE()");
+                              $queries = $db->query("SELECT * FROM Users WHERE role = 'Student'");
                               foreach($queries as $query){
                                 ?>
-                                <tr class="clickable-row" data-href="view-journal.php?journalID=<?php echo $query['journal_id'];?>">
-                                  <td><?php echo $query['journal_id'];?></td>
+                                <tr class="clickable-row" data-href="view-journal.php?journalID=<?php echo $query['userID'];?>">
+                                  <td><?php echo $query['userID'];?></td>
+                                  <td><?php echo $query['firstname'];?></td>
+                                  <td><?php echo $query['lastname'];?></td>
                                   <td><?php echo $query['username'];?></td>
-                                  <td><?php echo $query['title'];?></td>
-                                  <td><?php echo $query['mood'];?></td>
-                                  <td><?php echo $query['date'];?></td>
                                 </tr>
                                 <?php
                               }
