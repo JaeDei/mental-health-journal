@@ -40,7 +40,7 @@ if($role != 2){
                         confirmButtonText: 'OK'
                   }).then((result)=>{
                      if(result.isConfirmed){
-                        window.location.href = 'view-journal.php?journalID=$select_journalID';
+                        window.location.href = 'journal.php?journalID=$select_journalID';
                      }
                   });
                });
@@ -135,6 +135,7 @@ if($role != 2){
                               <div class="form-group row">
                                  <div class="offset-sm-0 col-sm-10">
                                     <input type="submit" name="submit" value="Create new Journal" class="btn btn-success">
+                                    <a href="journal.php" class="btn btn-success">go Back</a>
                                  </div>
                               </div>
                            </form>
