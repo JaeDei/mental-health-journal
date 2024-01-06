@@ -27,10 +27,10 @@ if(isset($_POST['submit'])){
             $role_perm = $select_perm->fetchColumn();
 
             if($role_perm == 1){
-                header('location: admin-mhj.php');
+                header('location: components/admin/admin-mhj.php');
                 exit();
             }elseif($role_perm == 2){
-                header('location: mhj.php');
+                header('location: components/student/mhj.php');
                 exit();
             }else{
                 $message[] = 'Role not found!';
