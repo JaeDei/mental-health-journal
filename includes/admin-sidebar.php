@@ -34,15 +34,15 @@
           <a href="journal-entries.php" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
             <p>
-              Students Journal Entries
+              Student Journal Entries
             </p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="students-list.php" class="nav-link">
+          <a href="student-lists.php" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
             <p>
-              Students List
+              Student Lists
             </p>
           </a>
         </li>

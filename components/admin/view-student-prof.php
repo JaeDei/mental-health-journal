@@ -29,15 +29,15 @@ if($role != 1){
                             confirmButtonText: 'Yes, delete it!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                            Swal.fire({
-                                title: 'Deleted!',
-                                text: 'Student record has been deleted.',
-                                icon: 'success'
-                            }).then(() => {
-                                window.location.href = 'delete-student-rec.php?studentID=$studentID';
-                            });
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Student record has been deleted.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    window.location.href = 'delete-student-rec.php?studentID=$studentID';
+                                });
                             } else {
-                            window.location.href = 'view-student-prof.php?studentID=$studentID';
+                                window.location.href = 'view-student-prof.php?studentID=$studentID';
                             }
                         });
                     });
@@ -156,7 +156,7 @@ if($role != 1){
                             <!-- /.card -->
                         </div>
                         <div class="col-md-12">
-                            <div class="text-center mt-7 mb-3">
+                            <div class="text-center">
                                 <a href="edit-student-prof.php?studentID=<?php echo $stud_data['userID'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
                                 <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
                             </div>

@@ -119,7 +119,7 @@ if($role != 1){
                         $sqlCount3 = $sql3->rowCount();
                         ?>
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box"type="button" onclick="window.location.href = 'students-list.php'">
+                            <div class="info-box"type="button" onclick="window.location.href = 'student-lists.php'">
                                 <span class="info-box-icon bg-warning"><i class="far fa-user"></i></span>
 
                                 <div class="info-box-content">
@@ -138,7 +138,7 @@ if($role != 1){
                         $sqlCount4 = $sql4->rowCount();
                         ?>
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box" type="button" onclick="window.location.href = 'students-list.php'">
+                            <div class="info-box" type="button" onclick="window.location.href = 'student-lists.php'">
                                 <span class="info-box-icon bg-danger"><i class="far fa-user"></i></span>
 
                                 <div class="info-box-content">

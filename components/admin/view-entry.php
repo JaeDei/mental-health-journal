@@ -29,15 +29,15 @@ if ($role != 1) {
                             confirmButtonText: 'Yes, delete it!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                            Swal.fire({
-                                title: 'Deleted!',
-                                text: 'Entry has been deleted.',
-                                icon: 'success'
-                            }).then(() => {
-                                window.location.href = '../../delete-journal.php?journalID=$journalID&role=$role';
-                            });
+                                Swal.fire({
+                                    title: 'Deleted!',
+                                    text: 'Entry has been deleted.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    window.location.href = '../../delete-journal.php?journalID=$journalID&role=$role';
+                                });
                             } else {
-                            window.location.href = 'view-entry.php?journalID=$journalID';
+                                window.location.href = 'view-entry.php?journalID=$journalID';
                             }
                         });
                     });
