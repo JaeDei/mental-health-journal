@@ -96,11 +96,11 @@ if($role != 2){
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <!-- PIE CHART -->
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Mood Chart</h3>
+                                    <h3 class="card-title">Mood Tracking</h3>
                                 </div>
                                 <div class="card-body">
                                     <canvas id="pieChart" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
@@ -139,7 +139,45 @@ if($role != 2){
                             </div>
                             <!-- /.card -->
                         </div>
+                        <div class="col-md-5">
+                            <!-- PRODUCT LIST -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Recently Added Journal</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <ul class="products-list product-list-in-card pl-2 pr-2">
+                                        <?php
+                                        $display = $db->query("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID WHERE userID = $userID ORDER BY journal_id DESC LIMIT 4");
+                                        $display->execute();
+                                        foreach($display as $dis){
+                                            ?>
+                                            <li class="item">
+                                                <div class="product-img">
+                                                    <?php echo $dis['mood'];?>
+                                                </div>
+                                                <div class="product-info">
+                                                    <a href="javascript:void(0)" class="product-title"><?php echo $dis['title'];?></a>
+                                                    <span class="product-description"><?php echo $dis['content'];?></span>
+                                                </div>
+                                            </li>
+                                            <!-- /.item -->
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer text-center">
+                                    <a href="journal.php" class="uppercase">View All Products</a>
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
                     </div>
+                    <!-- /.row -->
                 </div>
             </section>
         </div>
