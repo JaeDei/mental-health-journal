@@ -12,6 +12,7 @@ if($role != 2){
 }else{
 
   $userID = $fetch['userID'];
+
   $view_journal = $db->prepare("SELECT * FROM journal WHERE userID = $userID");
   $view_journal->execute();
   $views = $view_journal->fetchAll(PDO::FETCH_ASSOC);
@@ -101,7 +102,7 @@ if($role != 2){
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: ''
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
           },
           navLinks: true, // can click day/week names to navigate views
           selectable: true,
@@ -116,7 +117,8 @@ if($role != 2){
               confirmButtonText: 'Yes'
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.href = 'view-journal.php?journalID=';
+                arg.event.extendedProps.
+                window.location.href = 'view-journal.php?journalID=<?php echo $view['journal_id'];?>';
               }
             })
           },
