@@ -13,7 +13,8 @@ if($role != 2){
 
   $userID = $fetch['userID'];
 
-  $view_journal = $db->prepare("SELECT * FROM journal WHERE userID = $userID");
+  $view_journal = $db->prepare("SELECT * FROM journal WHERE userID = :userID");
+  $view_journal->bindParam(':userID', $userID, PDO::PARAM_INT);
   $view_journal->execute();
   $views = $view_journal->fetchAll(PDO::FETCH_ASSOC);
 
@@ -127,8 +128,6 @@ if($role != 2){
         calendar.render();
       });
     </script>
-   
-   
 
 </body>
 </html>

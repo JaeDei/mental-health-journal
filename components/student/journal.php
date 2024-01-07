@@ -84,7 +84,9 @@ if($role != 2){
                             <tbody>
                               <?php
                               $userID = $fetch['userID'];
-                              $queries = $db->query("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID Where userID = $userID");
+                              $queries = $db->prepare("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID Where userID = :userID");
+                              $queries->bindParam(':userID', $userID, PDO::PARAM_INT);
+                              $queries->execute();
                               foreach($queries as $query){
                                 ?>
                                 <tr class="clickable-row" data-href="view-journal.php?journalID=<?php echo $query['journal_id'];?>">

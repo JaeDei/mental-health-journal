@@ -11,15 +11,17 @@ if($role != 2){
     header('location: ../../unauthorized.php');
 }else{
     
-    $select = $db->prepare("SELECT * FROM loginAchievement WHERE userID = ?");
-    $select->execute([$fetch['userID']]);
+    $select = $db->prepare("SELECT * FROM loginAchievement WHERE userID = :userID");
+    $select->bindParam(':userID', $fetch['userID'], PDO::PARAM_INT);
+    $select->execute();
     $login_achievement = $select->fetch(PDO::FETCH_ASSOC);
 
     $firstname = $fetch['firstname'];
 
     if($select->rowCount() < 1){
-        $achievement = $db->prepare("INSERT INTO loginAchievement(userID) VALUES(?)");
-        $achievement->execute([$fetch['userID']]);
+        $achievement = $db->prepare("INSERT INTO loginAchievement(userID) VALUES(:userID)");
+        $achievement->bindParam(':userID', $fetch['userID'], PDO::PARAM_INT);
+        $achievement->execute();
 
         echo"
             <script type='text/javascript'>
@@ -105,7 +107,8 @@ if($role != 2){
                                 <div class="card-body">
                                     <canvas id="pieChart" style="min-height: 250px; height: 300px; max-height: 300px; max-width: 100%;"></canvas>
                                     <?php
-                                    $pie = $db->prepare("SELECT mood FROM mood JOIN journal ON mood.moodID = journal.moodID WHERE userID = $userID");
+                                    $pie = $db->prepare("SELECT mood FROM mood JOIN journal ON mood.moodID = journal.moodID WHERE userID = :userID");
+                                    $pie->bindParam(':userID', $userID, PDO::PARAM_INT);
                                     $pie->execute();
                                     $data = $pie->fetchAll(PDO::FETCH_ASSOC);
 
@@ -149,7 +152,8 @@ if($role != 2){
                                 <div class="card-body p-0">
                                     <ul class="products-list product-list-in-card pl-2 pr-2">
                                         <?php
-                                        $display = $db->query("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID WHERE userID = $userID ORDER BY journal_id DESC LIMIT 4");
+                                        $display = $db->prepare("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID WHERE userID = :userID ORDER BY journal_id DESC LIMIT 4");
+                                        $display->bindParam(':userID', $userID, PDO::PARAM_INT);
                                         $display->execute();
                                         foreach($display as $dis){
                                             ?>

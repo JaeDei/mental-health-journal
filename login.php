@@ -11,8 +11,10 @@ if(isset($_POST['submit'])){
     $user = filter_var($user, FILTER_SANITIZE_STRING);
     $password = $_POST['password'];
 
-    $select = $db->prepare("SELECT * FROM Users WHERE email = ? OR username = ?");
-    $select->execute([$user, $user]);
+    $select = $db->prepare("SELECT * FROM Users WHERE email = :user OR username = :user");
+    $select->bindParam(':user', $user, PDO::PARAM_STR);
+    $select->bindParam(':user', $user, PDO::PARAM_STR);
+    $select->execute();
     $user_rec = $select->fetch(PDO::FETCH_ASSOC);
 
     if($user_rec && password_verify($password, $user_rec['password'])){
@@ -22,8 +24,9 @@ if(isset($_POST['submit'])){
         $_SESSION['email'] = $user_rec['email'];
 
         if($_SESSION['userID'] && $_SESSION['username'] && $_SESSION['email']){
-            $select_perm = $db->prepare("SELECT roleID FROM role_perm WHERE userID = ?");
-            $select_perm->execute([$user_rec['userID']]);
+            $select_perm = $db->prepare("SELECT roleID FROM role_perm WHERE userID = :userID");
+            $select_perm->bindParam(':userID', $user_rec['userID'], PDO::PARAM_INT);
+            $select_perm->execute();
             $role_perm = $select_perm->fetchColumn();
 
             if($role_perm == 1){

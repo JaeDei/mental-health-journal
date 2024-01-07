@@ -23,8 +23,14 @@ if(isset($_POST['save'])){
    $thought = $_POST['thought'];
    $status = 'Private';
 
-   $update_journal = $db->prepare("UPDATE journal SET title = ?, content = ?, thought = ?, status = ?, moodID = ? WHERE journal_id = ?");
-   $update_journal->execute([$title, $content, $thought, $status, $moodID, $journal_id]);
+   $update_journal = $db->prepare("UPDATE journal SET title = :title, content = :content, thought = :thought, status = :status, moodID = :moodID WHERE journal_id = :journal_id");
+   $update_journal->bindParam(':title', $title, PDO::PARAM_STR);
+   $update_journal->bindParam(':content', $content, PDO::PARAM_STR);
+   $update_journal->bindParam(':thought', $thought, PDO::PARAM_STR);
+   $update_journal->bindParam(':status', $status, PDO::PARAM_STR);
+   $update_journal->bindParam(':moodID', $moodID, PDO::PARAM_INT);
+   $update_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
+   $update_journal->execute();
 
 }
 }

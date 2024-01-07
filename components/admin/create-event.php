@@ -18,8 +18,12 @@ if($role != 1){
       $startDate = $_POST['startDate'];
       $endDate = $_POST['endDate'];
       
-      $insert = $db->prepare("INSERT INTO events(eventTitle, about, start_at, end_at) VALUES(?,?,?,?)");
-      $insert->execute([$title, $about, $startDate, $endDate]);
+      $insert = $db->prepare("INSERT INTO events(eventTitle, about, start_at, end_at) VALUES(:title, :about, :startDate, :endDate)");
+      $insert->bindParam(':title', $title, PDO::PARAM_STR);
+      $insert->bindParam(':about', $about, PDO::PARAM_STR);
+      $insert->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+      $insert->bindParam(':endDate', $endDate, PDO::PARAM_STR);
+      $insert->execute();
       
       if($insert){
 

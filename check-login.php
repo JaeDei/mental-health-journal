@@ -12,8 +12,9 @@ if(isset($_SESSION['username']) || isset($_SESSION['email'])){
   $sql->execute();
   $fetch = $sql->fetch(PDO::FETCH_ASSOC);
 
-  $role_perm = $db->prepare("SELECT roleID FROM role_perm WHERE userID =  ?");
-  $role_perm->execute([$fetch['userID']]);
+  $role_perm = $db->prepare("SELECT roleID FROM role_perm WHERE userID = :userID");
+  $role_perm->bindParam(':userID', $userID, PDO::PARAM_INT);
+  $role_perm->execute();
   $role = $role_perm->fetchColumn();
 }else{
 

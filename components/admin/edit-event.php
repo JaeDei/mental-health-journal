@@ -11,24 +11,47 @@ if($role != 1){
    unset($_SESSION);
    header('location: ../../unauthorized.php');
 }else{
-if(isset($_POST['save'])){
+    if(isset($_POST['save'])){
 
-   $eventID = $_GET['eventID'];
-   $title = $_POST['title'];
-   $content = $_POST['content'];
-   $moodID = $_POST['mood'];
-   $thought = $_POST['thought'];
-   $status = 'Private';
+        $eventID = $_GET['eventID'];
+        $title = $_POST['title'];
+        $about = $_POST['about'];
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['endDate'];
 
-   $select = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
-   $select->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
-   $select->execute();
-   
+        $update = $db->prepare("UPDATE events SET eventTitle = :title, about = :about, start_at = :startDate, end_at = :endDate WHERE eventID = :eventID");
+        $update->bindParam(':title', $title, PDO::PARAM_STR);
+        $update->bindParam(':about', $about, PDO::PARAM_STR);
+        $update->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+        $update->bindParam(':endDate', $endDate, PDO::PARAM_STR);
+        $update->bindParam(':eventID', $eventID, PDO::PARAM_INT);
+        $update->execute();
 
-   $update_journal = $db->prepare("UPDATE journal SET title = ?, content = ?, thought = ?, status = ?, moodID = ? WHERE journal_id = ?");
-   $update_journal->execute([$title, $content, $thought, $status, $moodID, $journal_id]);
+        echo "
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Save Changes?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Save'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Saved!',
+                                text: 'Event has been updated.',
+                                icon: 'success'
+                            }).then(() => {
+                                window.location.href = 'view-event.php?eventID=$eventID';
+                            });
+                        }
+                    });
+                });
+            </script>";
 
-}
+    }
 }
 
 ?>
@@ -70,77 +93,53 @@ if(isset($_POST['save'])){
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Edit Daily Journal</h1>
+                            <h1>Edit Event</h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
             <!-- Main content -->
             <section class="content">
-               <div class="card-body">
-                  <div class="col-md-9">
-                     <div class="card card-primary">
-                        <div class="card-header">
-                           <h3 class="card-title">Journal Entry</h3>
-                        </div>
-                 <div class="card-body">
-                 <?php
-                 $journal_id = $_GET['journalID'];
-                 $select_journal = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
-                 $select_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
-                 $select_journal->execute();
-                if ($select_journal->rowCount() > 0) {
-                 $fetch_journal = $select_journal->fetch(PDO::FETCH_ASSOC);
-                  ?>
-                  <form action="" method="post">
-                         <div class="form-group">
-                             <label for="title">Title</label>
-                             <input type="text" id="title" name="title" class="form-control"  value="<?php echo htmlspecialchars($fetch_journal['title']); ?>" />
-                         </div>
-                         <div class="form-group">
-                             <label for="content">Content</label>
-                             <textarea id="content" name="content" class="form-control" rows="4" ><?php echo htmlspecialchars($fetch_journal['content']); ?></textarea>
-                         </div>
-                         <div class="form-group">
-                             <label for="mood">Mood</label>
-                             <select id="mood" name="mood" class="form-control custom-select" >
-                                 <?php
-                                 $queries = $db->query("SELECT * FROM mood");
-                                 foreach ($queries as $query) {
-                                 ?>
-                                     <option value="<?php echo $query['moodID']; ?>" <?php echo ($query['mood'] == $fetch_journal['mood']) ? 'selected' : ''; ?>><?php echo $query['description']; ?> <?php echo $query['mood']; ?></option>
-                                 <?php
-                                 }
-                                 ?>
-                             </select>
-                         </div>
-                         <div class="form-group">
-                             <label for="thought">What are your thoughts and feelings?</label>
-                             <textarea id="thought" name="thought" class="form-control" rows="4" required><?php echo htmlspecialchars($fetch_journal['thought']); ?></textarea>
-                         </div>
-                         <div class="form-group row">
-                             <div class="offset-sm-0 col-sm-10">
-                             <input type="submit" name="save" value="Save your Journal" class="btn btn-success">
-                             <a href="journal.php" class="btn btn-success">go Back</a>
-                           
-                              </div>
-                         </div>
-                         <?php
-                           } else {
-                                    echo '<p class="empty">No posts found!</p>';
-                                            ?>
-                                          <div class="flex-btn">
-                     <a href="view-journal.php" class="option-btn">View Journal</a>
-                     <a href="create-journal.php" class="option-btn">Add Journal</a>
-                 </div>
-             <?php
-                                         }
-                 ?>
-                     </form>
+                <div class="card-body">
+                    <div class="col-md-9">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Event Details</h3>
+                            </div>
+                            <div class="card-body">
+                                <?php
+                                $eventID = $_GET['eventID'];
+                                $event = $db->prepare("SELECT * FROM events WHERE eventID = :eventID");
+                                $event->bindParam(':eventID', $eventID, PDO::PARAM_INT);
+                                $event->execute();
+                                $fetchEvent = $event->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <form action="" method="post">
+                                    <div class="form-group">
+                                        <label for="title">Event Title</label>
+                                        <input type="text" id="title" name="title" class="form-control"  value="<?php echo $fetchEvent['eventTitle']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about">About</label>
+                                        <textarea id="about" name="about" class="form-control" rows="4"><?php echo $fetchEvent['about']; ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startDate">Start at</label>
+                                        <input type="datetime-local" id="startDate" name="startDate" class="form-control"  value="<?php echo $fetchEvent['start_at']; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endDate">End at</label>
+                                        <input type="datetime-local" id="endDate" name="endDate" class="form-control"  value="<?php echo $fetchEvent['end_at']; ?>">
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-0 col-sm-10">
+                                            <input type="submit" name="save" value="Save your Journal" class="btn btn-success">
+                                            <a href="view-event.php?eventID=<?php echo $eventID;?>" class="btn btn-success">go Back</a>
+                                        </div>
+                                    </div>
+                                </form>
             
-                 </div>
-     
-   
+                            </div>
                         </div>
                         <!-- /.card -->
                      </div>

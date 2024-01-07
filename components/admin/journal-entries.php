@@ -79,7 +79,8 @@ if($role != 1){
                             </thead>
                             <tbody>
                               <?php
-                              $queries = $db->query("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID JOIN Users ON journal.userID = Users.userID");
+                              $queries = $db->prepare("SELECT * FROM journal JOIN mood ON journal.moodID = mood.moodID JOIN Users ON journal.userID = Users.userID");
+                              $queries->execute();
                               foreach($queries as $query){
                                 ?>
                                 <tr class="clickable-row" data-href="view-entry.php?journalID=<?php echo $query['journal_id'];?>">

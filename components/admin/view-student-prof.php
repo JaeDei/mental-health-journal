@@ -99,7 +99,8 @@ if($role != 1){
                 <div class="container-fluid">
                     <?php
                     $studentID = $_GET['studentID'];
-                    $select = $db->prepare("SELECT * FROM Users WHERE userID = $studentID");
+                    $select = $db->prepare("SELECT * FROM Users WHERE userID = :studentID");
+                    $select->bindParam(':studentID', $studentID, PDO::PARAM_INT);
                     $select->execute();
                     $stud_data = $select->fetch(PDO::FETCH_ASSOC);
                     ?>

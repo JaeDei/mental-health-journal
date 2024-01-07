@@ -7,8 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['journalID']) && isset($_
     $journalID = $_GET['journalID'];
     $role = $_GET['role'];
 
-    $delete_post = $db->prepare("DELETE FROM journal WHERE journal_id = ?");
-    $deleted = $delete_post->execute([$journalID]);
+    $delete_post = $db->prepare("DELETE FROM journal WHERE journal_id = :journalID");
+    $delete_post->bindParam(':journalID', $journalID, PDO::PARAM_INT);
+    $deleted = $delete_post->execute();
 
     if($deleted){
         if($role == 1){

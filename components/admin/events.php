@@ -83,7 +83,8 @@ if($role != 1){
                             </thead>
                             <tbody>
                               <?php
-                              $queries = $db->query("SELECT * FROM events");
+                              $queries = $db->prepare("SELECT * FROM events");
+                              $queries->execute();
                               foreach($queries as $query){
                                 ?>
                                 <tr class="clickable-row" data-href="view-event.php?eventID=<?php echo $query['eventID'];?>">

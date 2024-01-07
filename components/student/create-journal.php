@@ -20,14 +20,23 @@ if($role != 2){
       $thought = $_POST['thought'];
       $status = 'Private';
       
-      $insert = $db->prepare("INSERT INTO journal(userID, title, content, moodID, thought, status) VALUES(?,?,?,?,?,?)");
-      $insert->execute([$userID, $title, $content, $moodID, $thought, $status]);
+      $insert = $db->prepare("INSERT INTO journal(userID, title, content, moodID, thought, status) 
+                              VALUES(:userID, :title, :content, :moodID, :thought, :status)");
+      $insert->bindParam(':userID', $userID, PDO::PARAM_INT);
+      $insert->bindParam(':title', $title, PDO::PARAM_STR);
+      $insert->bindParam(':content', $content, PDO::PARAM_STR);
+      $insert->bindParam(':moodID', $moodID, PDO::PARAM_INT);
+      $insert->bindParam(':thought', $thought, PDO::PARAM_STR);
+      $insert->bindParam(':status', $status, PDO::PARAM_STR);
+      $insert->execute();
       
       if($insert){
 
          $journalID = $db->lastInsertId();
-         $select = $db->prepare("SELECT * FROM journal WHERE journal_id = ? AND userID = ?");
-         $select->execute([$journalID, $userID]);
+         $select = $db->prepare("SELECT * FROM journal WHERE journal_id = :journalID AND userID = :userID");
+         $select->bindParam(':journalID', $journalID, PDO::PARAM_INT);
+         $select->bindParam(':userID', $userID, PDO::PARAM_INT);
+         $select->execute();
          $select_id = $select->fetch(PDO::FETCH_ASSOC);
          $select_journalID = $select_id['journal_id'];
 
@@ -119,7 +128,8 @@ if($role != 2){
                                  <select id="mood" name="mood" class="form-control custom-select" required>
                                     <option value="" selected disabled>Select Mood</option>
                                     <?php
-                                    $queries = $db->query("SELECT * FROM mood");
+                                    $queries = $db->prepare("SELECT * FROM mood");
+                                    $queries->execute();
                                     foreach($queries as $query){
                                        ?>
                                        <option value="<?php echo $query['moodID'];?>"><?php echo $query['description'];?> <?php echo $query['mood'];?></option>

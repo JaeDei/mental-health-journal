@@ -16,8 +16,9 @@ if ($role != 2) {
 
       if (isset($_POST['status'])) {
          
-         $select = $db->prepare("SELECT status FROM journal WHERE journal_id = ?");
-         $select->execute([$journalID]);
+         $select = $db->prepare("SELECT status FROM journal WHERE journal_id = :journalID");
+         $select->bindParam(':journalID', $journalID, PDO::PARAM_INT);
+         $select->execute();
          $check_status = $select->fetch(PDO::FETCH_ASSOC);
 
          if($check_status['status'] == 'Public'){
@@ -177,7 +178,9 @@ if ($role != 2) {
                         <form action="" method="post">
                            <?php
                            $journalID = $_GET['journalID'];
-                           $sql = $db->query("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = $journalID");
+                           $sql = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journalID");
+                           $sql->bindParam(':journalID', $journalID, PDO::PARAM_INT);
+                           $sql->execute();
                            foreach($sql as $display){
                               ?>
                               <h3 class="text-primary text-center"><?php echo $display['title'];?></h3>

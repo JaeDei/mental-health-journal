@@ -107,7 +107,8 @@ if ($role != 1) {
                         <form action="" method="post">
                            <?php
                            $eventID = $_GET['eventID'];
-                           $sql = $db->prepare("SELECT * FROM events WHERE eventID = $eventID");
+                           $sql = $db->prepare("SELECT * FROM events WHERE eventID = :eventID");
+                           $sql->bindParam(':eventID', $eventID, PDO::PARAM_INT);
                            $sql->execute();
                            foreach($sql as $display){
                               ?>

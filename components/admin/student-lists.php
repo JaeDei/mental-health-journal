@@ -78,7 +78,8 @@ if($role != 1){
                             </thead>
                             <tbody>
                               <?php
-                              $queries = $db->query("SELECT * FROM Users WHERE role = 'Student'");
+                              $queries = $db->prepare("SELECT * FROM Users WHERE role = 'Student'");
+                              $queries->execute();
                               foreach($queries as $query){
                                 ?>
                                 <tr class="clickable-row" data-href="view-student-prof.php?studentID=<?php echo $query['userID'];?>">

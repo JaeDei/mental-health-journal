@@ -107,7 +107,9 @@ if ($role != 1) {
                         <form action="" method="post">
                            <?php
                            $journalID = $_GET['journalID'];
-                           $sql = $db->query("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = $journalID");
+                           $sql = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journalID");
+                           $sql->bindParam(':journalID', $journalID, PDO::PARAM_INT);
+                           $sql->execute();
                            foreach($sql as $display){
                               ?>
                               <h3>From: <?php echo $display['username'];?></h3>

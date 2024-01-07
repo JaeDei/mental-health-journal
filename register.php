@@ -27,11 +27,13 @@ if(isset($_POST['submit'])){
     $image_tmp_name = $_FILES['profile_img']['tmp_name'];
     $image_folder = 'assets/profile_img/'.$profile_img;
 
-    $select_username = $db->prepare("SELECT * FROM Users WHERE username = ?");
-    $select_username->execute([$username]);
+    $select_username = $db->prepare("SELECT * FROM Users WHERE username = :username");
+    $select_username->bindParam(':username', $username, PDO::PARAM_STR);
+    $select_username->execute();
     
-    $select_email = $db->prepare("SELECT * FROM Users WHERE email = ?");
-    $select_email->execute([$email]);
+    $select_email = $db->prepare("SELECT * FROM Users WHERE email = :email");
+    $select_email->bindParam(':email', $email, PDO::PARAM_STR);
+    $select_email->execute();
 
     if($select_username->rowCount() > 0){
         
@@ -67,16 +69,27 @@ if(isset($_POST['submit'])){
 
             $hashpass = password_hash($password, PASSWORD_BCRYPT);
 
-            $insert = $db->prepare("INSERT INTO Users(firstname, lastname, username, email, phone_no, password, profile_pic, role) VALUES(?,?,?,?,?,?,?,?)");
-            $insert->execute([$firstname, $lastname, $username, $email, $phone_no, $hashpass, $profile_img, $role]);
+            $insert = $db->prepare("INSERT INTO Users(firstname, lastname, username, email, phone_no, password, profile_pic, role) 
+                                    VALUES(:firstname, :lastname, :username, :email, :phone_no, :hashpass, :profile_img, :role)");
+            $insert->bindParam(':firstname', $firstname, PDO::PARAM_STR);
+            $insert->bindParam(':lastname', $lastname, PDO::PARAM_STR);
+            $insert->bindParam(':username', $username, PDO::PARAM_STR);
+            $insert->bindParam(':email', $email, PDO::PARAM_STR);
+            $insert->bindParam(':phone_no', $phone_no, PDO::PARAM_INT);
+            $insert->bindParam(':hashpass', $hashpass, PDO::PARAM_STR);
+            $insert->bindParam(':profile_img', $profile_img, PDO::PARAM_STR);
+            $insert->bindParam(':role', $role, PDO::PARAM_STR);
+            $insert->execute();
             
             if($insert){
 
                 move_uploaded_file($image_tmp_name, $image_folder);
 
                 $userID = $db->lastInsertId();
-                $insert_role_perm = $db->prepare("INSERT INTO role_perm(userID, roleID) VALUES(?, ?)");
-                $insert_role_perm->execute([$userID, $roleID]);
+                $insert_role_perm = $db->prepare("INSERT INTO role_perm(userID, roleID) VALUES(:userID, :roleID)");
+                $insert_role_perm->bindParam(':userID', $userID, PDO::PARAM_INT);
+                $insert_role_perm->bindParam(':roleID', $roleID, PDO::PARAM_INT);
+                $insert_role_perm->execute();
                 
                 echo"
                     <script type='text/javascript'>
@@ -203,7 +216,8 @@ if(isset($_POST['submit'])){
                         <select id="roletype" name="roletype" required>
                             <option selected disabled>Select User Role</option>
                             <?php
-                            $ret = $db->query("SELECT * FROM Roles");
+                            $ret = $db->prepare("SELECT * FROM Roles");
+                            $ret->execute();
                             foreach($ret as $row){
                                 ?>
                                 <option value="<?php echo $row['roleID'];?>" name="roleID"><?php echo $row['role'];?></option>
