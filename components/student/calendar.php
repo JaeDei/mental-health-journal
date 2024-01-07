@@ -9,6 +9,24 @@ require('../../check-login.php');
 if($role != 2){
   unset($_SESSION);
   header('location: ../../unauthorized.php');
+}else{
+
+  $userID = $fetch['userID'];
+  $view_journal = $db->prepare("SELECT * FROM journal WHERE userID = $userID");
+  $view_journal->execute();
+  $views = $view_journal->fetchAll(PDO::FETCH_ASSOC);
+
+  $data = array();
+  foreach($views as $view){
+    $data[] = array(
+      'id' => $view['journal_id'],
+      'title' => $view['title'],
+      'start' => $view['date'],
+    );
+  }
+
+  $event = json_encode($data);
+
 }
 
 ?>
@@ -44,12 +62,6 @@ if($role != 2){
           <!-- Content Header (Page header) -->
           <section class="content-header">
               <div class="container-fluid">
-                  <?php
-                  $userID = $fetch['userID'];
-                  $view_journal = $db->prepare("SELECT journal_id FROM journal WHERE userID = $userID");
-                  $view_journal->execute();
-                  $view = $view_journal->fetch(PDO::FETCH_ASSOC);
-                  ?>
                   <div id="calendar"></div>
               </div>
           </section>
@@ -79,14 +91,14 @@ if($role != 2){
     <script>
       document.addEventListener('DOMContentLoaded', function(){
         var calendarEl = document.getElementById('calendar');
+        var event = <?=$event?>;
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: ''
           },
-          initialDate: '2023-01-12',
           navLinks: true, // can click day/week names to navigate views
           selectable: true,
           selectMirror: true,
@@ -97,12 +109,7 @@ if($role != 2){
           },
           editable: true,
           dayMaxEvents: true, // allow "more" link when too many events
-          events: [
-            {
-              title: 'All Day Event',
-              start: '2023-01-01'
-            }
-          ]
+          events: event
         });
         calendar.render();
       });
