@@ -44,6 +44,8 @@ if($role != 2){
 
     <link rel="stylesheet" href="../../assets/overlayScrollbars/css/OverlayScrollbars.min.css">
 
+    <link rel="stylesheet" href="../../assets/sweetalert2/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
 
 </head>
@@ -86,6 +88,8 @@ if($role != 2){
 
     <script src="../../assets/js/activesidebar.js"></script>
 
+    <script src="../../assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
     <script src="../../assets/fullcalendar-6.1.10/fullcalendar-6.1.10/dist/index.global.js"></script>
 
     <script>
@@ -103,9 +107,18 @@ if($role != 2){
           selectable: true,
           selectMirror: true,
           eventClick: function(arg) {
-            if (confirm('View journal entry?')) {
-              window.location.href = 'view-journal.php?journalID=<?php echo $view['journal_id'];?>';
-            }
+            Swal.fire({
+              title: 'View this Journal Entry?',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Yes'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = 'view-journal.php?journalID=';
+              }
+            })
           },
           editable: true,
           dayMaxEvents: true, // allow "more" link when too many events
