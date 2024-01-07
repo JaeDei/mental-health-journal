@@ -71,6 +71,15 @@ create table journal(
     FOREIGN KEY(moodID) REFERENCES mood(moodID)
 );
 
+CREATE TABLE events(
+    eventID int not null auto_increment,
+    eventTitle varchar(50) not null,
+    about varchar(255) not null,
+    start_at datetime,
+    end_at datetime,
+    PRIMARY KEY(eventID)
+);
+
 
 
 
