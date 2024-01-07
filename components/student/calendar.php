@@ -6,9 +6,12 @@ require('../../includes/config.php');
 require('../../includes/db.php');
 require('../../check-login.php');
 
+if($role != 2){
+  unset($_SESSION);
+  header('location: ../../unauthorized.php');
+}
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,18 +90,6 @@ require('../../check-login.php');
           navLinks: true, // can click day/week names to navigate views
           selectable: true,
           selectMirror: true,
-          select: function(arg) {
-            var title = prompt('Event Title:');
-            if (title) {
-              calendar.addEvent({
-                title: title,
-                start: arg.start,
-                end: arg.end,
-                allDay: arg.allDay
-              })
-            }
-            calendar.unselect()
-          },
           eventClick: function(arg) {
             if (confirm('View journal entry?')) {
               window.location.href = 'view-journal.php?journalID=<?php echo $view['journal_id'];?>';
