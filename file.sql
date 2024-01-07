@@ -44,6 +44,7 @@ CREATE TABLE mood(
     moodID int not null auto_increment,
     mood varchar(10) not null,
     description varchar(20) not null,
+    UNIQUE KEY(mood),
     PRIMARY KEY(moodID)
 );
 
@@ -63,7 +64,7 @@ create table journal(
     content varchar(355),
     moodID int not null,
     thought varchar(355),
-    date date,
+    date TIMESTAMP,
     status varchar(10),
     PRIMARY KEY (journal_id),
     FOREIGN KEY(userID) REFERENCES users(userID),
