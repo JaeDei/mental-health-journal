@@ -83,8 +83,6 @@ if($role != 2){
 
     <script src="../../assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-
     <script src="../../assets/js/adminlte.min.js"></script>
 
     <script src="../../assets/js/activesidebar.js"></script>
@@ -117,7 +115,6 @@ if($role != 2){
               confirmButtonText: 'Yes'
             }).then((result) => {
               if (result.isConfirmed) {
-                arg.event.extendedProps.
                 window.location.href = 'view-journal.php?journalID=<?php echo $view['journal_id'];?>';
               }
             })
