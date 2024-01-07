@@ -21,7 +21,7 @@ if($role != 1){
                     document.addEventListener('DOMContentLoaded', function(){
                         Swal.fire({
                             title: 'Are you sure?',
-                            text: 'You won\'t be able to recover this entry!',
+                            text: 'You won\'t be able to recover this records!',
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#d33',
@@ -31,7 +31,7 @@ if($role != 1){
                             if (result.isConfirmed) {
                                 Swal.fire({
                                     title: 'Deleted!',
-                                    text: 'Student record has been deleted.',
+                                    text: 'Student records has been deleted.',
                                     icon: 'success'
                                 }).then(() => {
                                     window.location.href = 'delete-student-rec.php?studentID=$studentID';
@@ -43,6 +43,8 @@ if($role != 1){
                     });
                 </script>";
     
+        }else{
+            echo "Error on delete!";
         }
     }
 
@@ -95,13 +97,13 @@ if($role != 1){
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                    <?php
+                    $studentID = $_GET['studentID'];
+                    $select = $db->prepare("SELECT * FROM Users WHERE userID = $studentID");
+                    $select->execute();
+                    $stud_data = $select->fetch(PDO::FETCH_ASSOC);
+                    ?>
                     <div class="row">
-                        <?php
-                        $studentID = $_GET['studentID'];
-                        $select = $db->prepare("SELECT * FROM Users WHERE userID = $studentID");
-                        $select->execute();
-                        $stud_data = $select->fetch(PDO::FETCH_ASSOC);
-                        ?>
                         <div class="col-md-5">
                             <!-- Profile Image -->
                             <div class="card card-primary card-outline">
@@ -156,12 +158,14 @@ if($role != 1){
                             </div>
                             <!-- /.card -->
                         </div>
-                        <div class="col-md-12">
-                            <div class="text-center">
-                                <a href="edit-student-prof.php?studentID=<?php echo $stud_data['userID'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
-                                <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
+                            <div class="col-md-12">
+                            <form action="" method="post">
+                                <div class="text-center">
+                                    <a href="edit-student-prof.php?studentID=<?php echo $stud_data['userID'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
+                                    <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
+                                </div>
+                            </form>
                             </div>
-                        </div>
                     </div>
                     <!-- /.row -->
                 </div>

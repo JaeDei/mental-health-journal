@@ -42,6 +42,8 @@ if ($role != 1) {
                         });
                     });
                 </script>";
+        }else{
+         echo "Error on delete!";
         }
    
     }

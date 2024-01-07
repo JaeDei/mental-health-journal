@@ -110,6 +110,8 @@ if ($role != 2) {
                   });
                </script>";
      
+         }else{
+            echo "Error on delete!";
          }
    
       }
@@ -137,8 +139,6 @@ if ($role != 2) {
     <link rel="stylesheet" href="../../assets/overlayScrollbars/css/OverlayScrollbars.min.css">
 
     <link rel="stylesheet" href="../../assets/sweetalert2/dist/sweetalert2.min.css">
-
-    <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
