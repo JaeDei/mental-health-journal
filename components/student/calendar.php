@@ -105,7 +105,7 @@ if($role != 2){
           navLinks: true, // can click day/week names to navigate views
           selectable: true,
           selectMirror: true,
-          eventClick: function(arg) {
+          eventClick: function(info) {
             Swal.fire({
               title: 'View this Journal Entry?',
               icon: 'question',
@@ -115,9 +115,10 @@ if($role != 2){
               confirmButtonText: 'Yes'
             }).then((result) => {
               if (result.isConfirmed) {
-                window.location.href = 'view-journal.php?journalID=<?php echo $view['journal_id'];?>';
+                window.location.href = 'view-journal.php?journalID='+info.event.id;
               }
             })
+            console.log("error");
           },
           editable: true,
           dayMaxEvents: true, // allow "more" link when too many events
