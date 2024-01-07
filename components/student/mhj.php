@@ -170,7 +170,7 @@ if($role != 2){
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer text-center">
-                                    <a href="journal.php" class="uppercase">View All Products</a>
+                                    <a href="journal.php" class="uppercase">View All Entry</a>
                                 </div>
                                 <!-- /.card-footer -->
                             </div>

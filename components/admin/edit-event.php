@@ -7,21 +7,23 @@ require('../../includes/config.php');
 require('../../includes/db.php');
 require('../../check-login.php');
 
-if($role != 2){
+if($role != 1){
    unset($_SESSION);
    header('location: ../../unauthorized.php');
 }else{
 if(isset($_POST['save'])){
 
-   $journal_id = $_GET['journalID'];
-   $select_journal = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
-   $select_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
-   $select_journal->execute();
+   $eventID = $_GET['eventID'];
    $title = $_POST['title'];
    $content = $_POST['content'];
    $moodID = $_POST['mood'];
    $thought = $_POST['thought'];
    $status = 'Private';
+
+   $select = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
+   $select->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
+   $select->execute();
+   
 
    $update_journal = $db->prepare("UPDATE journal SET title = ?, content = ?, thought = ?, status = ?, moodID = ? WHERE journal_id = ?");
    $update_journal->execute([$title, $content, $thought, $status, $moodID, $journal_id]);
@@ -37,7 +39,7 @@ if(isset($_POST['save'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mhj | Edit Journal</title>
+    <title>mhj | Admin-Edit Event</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -56,9 +58,9 @@ if(isset($_POST['save'])){
         
         <?php
         /* Navbar */
-        include('../../includes/student-navbar.php');
+        include('../../includes/admin-navbar.php');
         /* Sidebar */
-        include('../../includes/student-sidebar.php');
+        include('../../includes/admin-sidebar.php');
         ?>
 
         <!-- Content Wrapper. Contains page content -->

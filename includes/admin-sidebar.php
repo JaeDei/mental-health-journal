@@ -47,6 +47,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="events.php" class="nav-link">
+            <i class="nav-icon fas fa-calendar  "></i>
+            <p>
+              Events
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="calendar.php" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>

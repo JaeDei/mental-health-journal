@@ -10,9 +10,9 @@ if ($role != 1) {
     header('location: ../../unauthorized.php');
 }else{
    
-    $journalID = isset($_GET['journalID']) ? $_GET['journalID'] : null;
+    $eventID = isset($_GET['eventID']) ? $_GET['eventID'] : null;
 
-    if ($journalID !== null) {
+    if ($eventID !== null) {
     
         if (isset($_POST['delete'])) {
          
@@ -58,7 +58,7 @@ if ($role != 1) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>mhj | Admin-View Journal Entry</title>
+   <title>mhj | Admin-View Event</title>
 
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -88,7 +88,7 @@ if ($role != 1) {
             <div class="container-fluid">
                <div class="row mb-2">
                   <div class="col-sm-6">
-                     <h1>View Student Journal Entry</h1>
+                     <h1>View Event</h1>
                   </div>
                </div>
             </div><!-- /.container-fluid -->
@@ -99,30 +99,29 @@ if ($role != 1) {
             <!-- Default box -->
             <div class="card">
                <div class="card-header">
-                  <h3 class="card-title">Entry Detail</h3>
+                  <h3 class="card-title">Event Detail</h3>
                </div>
                <div class="card-body">
                   <div class="row">
                      <div class="col-md-12">
                         <form action="" method="post">
                            <?php
-                           $journalID = $_GET['journalID'];
-                           $sql = $db->query("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = $journalID");
+                           $eventID = $_GET['eventID'];
+                           $sql = $db->prepare("SELECT * FROM events WHERE eventID = $eventID");
+                           $sql->execute();
                            foreach($sql as $display){
                               ?>
-                              <h3>From: <?php echo $display['username'];?></h3>
-                              <h3 class="text-primary text-center"><?php echo $display['title'];?></h3>
+                              <h3 class="text-primary text-center"><?php echo $display['eventTitle'];?></h3>
                               <br>
                               <div class="offset-sm-1 col-md-10">
-                                 <p class="text-muted">Content: <?php echo $display['content'];?></p>
+                                 <p class="text-muted">About: <?php echo $display['about'];?></p>
                                  <br>
-                                 <p class="text-muted">Mood: <?php echo $display['description'];?> <?php echo $display['mood'];?></p>
+                                 <p class="text-muted">Start at: <?php echo $display['start_at'];?></p>
                                  <br>
-                                 <p class="text-muted">Thoughts and Feelings: <?php echo $display['thought'];?></p>
-                                 <br>
-                                 <p class="text-muted">Status: <?php echo $display['status'];?></p>
+                                 <p class="text-muted">End at: <?php echo $display['end_at'];?></p>
                                  <br>
                                  <div class="text-center mt-7 mb-3">
+                                 <a href="edit-event.php?eventID=<?php echo $display['eventID'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
                                     <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
                                  </div>
                               </div>

@@ -161,7 +161,6 @@ if($role != 1){
                             <div class="col-md-12">
                             <form action="" method="post">
                                 <div class="text-center">
-                                    <a href="edit-student-prof.php?studentID=<?php echo $stud_data['userID'];?>" class="btn btn-sm btn-success" name="edit">Edit</a>
                                     <button type="submit" class="btn btn-sm btn-danger" name="delete">Delete</button>
                                 </div>
                             </form>
