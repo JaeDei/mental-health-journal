@@ -14,9 +14,6 @@ if($role != 2){
 if(isset($_POST['save'])){
 
    $journal_id = $_GET['journalID'];
-   $select_journal = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
-   $select_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
-   $select_journal->execute();
    $title = $_POST['title'];
    $content = $_POST['content'];
    $moodID = $_POST['mood'];
@@ -31,6 +28,30 @@ if(isset($_POST['save'])){
    $update_journal->bindParam(':moodID', $moodID, PDO::PARAM_INT);
    $update_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
    $update_journal->execute();
+
+   echo "
+        <script type='text/javascript'>
+            document.addEventListener('DOMContentLoaded', function(){
+                Swal.fire({
+                    title: 'Save Changes?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Save'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Saved!',
+                            text: 'Entry has been updated.',
+                            icon: 'success'
+                        }).then(() => {
+                            window.location.href = 'view-journal.php?journalID=$journal_id';
+                        });
+                    }
+                });
+            });
+        </script>";
 
 }
 }
@@ -93,7 +114,6 @@ if(isset($_POST['save'])){
                  $select_journal = $db->prepare("SELECT * FROM journal JOIN Users ON journal.userID = Users.userID JOIN mood ON journal.moodID = mood.moodID WHERE journal_id = :journal_id");
                  $select_journal->bindParam(':journal_id', $journal_id, PDO::PARAM_INT);
                  $select_journal->execute();
-                if ($select_journal->rowCount() > 0) {
                  $fetch_journal = $select_journal->fetch(PDO::FETCH_ASSOC);
                   ?>
                   <form action="" method="post">
@@ -109,7 +129,8 @@ if(isset($_POST['save'])){
                              <label for="mood">Mood</label>
                              <select id="mood" name="mood" class="form-control custom-select" >
                                  <?php
-                                 $queries = $db->query("SELECT * FROM mood");
+                                 $queries = $db->prepare("SELECT * FROM mood");
+                                 $queries->execute();
                                  foreach ($queries as $query) {
                                  ?>
                                      <option value="<?php echo $query['moodID']; ?>" <?php echo ($query['mood'] == $fetch_journal['mood']) ? 'selected' : ''; ?>><?php echo $query['description']; ?> <?php echo $query['mood']; ?></option>
@@ -125,21 +146,10 @@ if(isset($_POST['save'])){
                          <div class="form-group row">
                              <div class="offset-sm-0 col-sm-10">
                              <input type="submit" name="save" value="Save your Journal" class="btn btn-success">
-                             <a href="journal.php" class="btn btn-success">go Back</a>
+                             <a href="view-journal.php?journalID=<?php echo $fetch_journal['journal_id'];?>" class="btn btn-success">go Back</a>
                            
                               </div>
                          </div>
-                         <?php
-                           } else {
-                                    echo '<p class="empty">No posts found!</p>';
-                                            ?>
-                                          <div class="flex-btn">
-                     <a href="view-journal.php" class="option-btn">View Journal</a>
-                     <a href="create-journal.php" class="option-btn">Add Journal</a>
-                 </div>
-             <?php
-                                         }
-                 ?>
                      </form>
             
                  </div>

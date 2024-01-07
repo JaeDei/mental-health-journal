@@ -31,13 +31,11 @@ if ($role != 1) {
                             if (result.isConfirmed) {
                                 Swal.fire({
                                     title: 'Deleted!',
-                                    text: 'Entry has been deleted.',
+                                    text: 'Event has been deleted.',
                                     icon: 'success'
                                 }).then(() => {
-                                    window.location.href = '../../delete-journal.php?journalID=$journalID&role=$role';
+                                    window.location.href = 'delete-event.php?eventID=$eventID';
                                 });
-                            } else {
-                                window.location.href = 'view-entry.php?journalID=$journalID';
                             }
                         });
                     });

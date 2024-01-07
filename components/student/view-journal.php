@@ -43,8 +43,6 @@ if ($role != 2) {
                            }).then(() => {
                               window.location.href = 'update-journal.php?journalID=$journalID&status=$status';
                            });
-                        } else {
-                           window.location.href = 'view-journal.php?journalID=$journalID';
                         }
                      });
                   });
@@ -72,8 +70,6 @@ if ($role != 2) {
                            }).then(() => {
                               window.location.href = 'update-journal.php?journalID=$journalID&status=$status';
                            });
-                        } else {
-                           window.location.href = 'view-journal.php?journalID=$journalID';
                         }
                      });
                   });
@@ -104,8 +100,6 @@ if ($role != 2) {
                            }).then(() => {
                               window.location.href = '../../delete-journal.php?journalID=$journalID&role=$role';
                            });
-                        } else {
-                           window.location.href = 'view-journal.php?journalID=$journalID';
                         }
                      });
                   });
