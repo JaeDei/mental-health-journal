@@ -90,44 +90,44 @@ if($role != 1){
     <script src="../../assets/fullcalendar-6.1.10/fullcalendar-6.1.10/dist/index.global.js"></script>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function(){
-        var calendarEl = document.getElementById('calendar');
-        var event = <?=$event?>;
+        document.addEventListener('DOMContentLoaded', function(){
+            var calendarEl = document.getElementById('calendar');
+            var event = <?=$event?>;
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          googleCalendarApiKey: 'AIzaSyDMxXBzWEnQ2RWfLGutZ7y0YHlnkMv0eT4',
-          navLinks: true, // can click day/week names to navigate views
-          selectable: true,
-          selectMirror: true,
-          eventClick: function(info) {
-            Swal.fire({
-                title: 'View this Event?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                  window.location.href = 'view-event.php?eventID='+info.event.id;
-                }
-            })
-          },
-          editable: true,
-          dayMaxEvents: true, // allow "more" link when too many events
-          eventSources: [{
-              googleCalendarId: 'en.philippines#holiday@group.v.calendar.google.com'
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            event
-          ]
+            googleCalendarApiKey: 'AIzaSyDMxXBzWEnQ2RWfLGutZ7y0YHlnkMv0eT4',
+            navLinks: true, // can click day/week names to navigate views
+            selectable: true,
+            selectMirror: true,
+            eventClick: function(info) {
+                Swal.fire({
+                    title: 'View this Event?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                    window.location.href = 'view-event.php?eventID='+info.event.id;
+                    }
+                })
+            },
+            editable: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+            eventSources: [{
+                googleCalendarId: 'en.philippines#holiday@group.v.calendar.google.com'
+                },
+                event
+            ]
+            });
+            calendar.render();
         });
-        calendar.render();
-      });
     </script>
 
 </body>
