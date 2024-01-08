@@ -62,14 +62,6 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="achievement.php" class="nav-link">
-            <i class="nav-icon fas fa-star"></i>
-            <p>
-              Achievements
-            </p>
-          </a>
-        </li>
         <br>
         <li class="nav-item">
           <a href="../../logout.php" class="nav-link">

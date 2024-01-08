@@ -9,6 +9,64 @@ if ($role != 2) {
     unset($_SESSION);
     header('location: ../../unauthorized.php');
 }else{
+
+   $userID = $fetch['userID'];
+
+   if ($userID !== null) {
+
+      $check = $db->prepare("SELECT * FROM journal WHERE userID = :userID");
+      $check->bindParam(':userID', $userID, PDO::PARAM_INT);
+      $check->execute();
+      $row = $check->fetchAll(PDO::FETCH_ASSOC);
+      $count = count($row);
+
+      $text = array();
+      $image = array();
+      if($count == 1){
+         $text[] = 'First Entry!';
+         $image[] = 'first_entry.png';
+      }elseif($count == 10){
+         $text[] = '10th Entry!';
+         $image[] = '10th_entry.png';
+      }elseif($count == 20){
+         $text[] = '20th Entry!';
+         $image[] = '20th_entry.png';
+      }elseif($count == 30){
+         $text[] = '30th Entry!';
+         $image[] = '30th_entry.png';
+      }elseif($count == 40){
+         $text[] = '40th Entry!';
+         $image[] = '40th_entry.png';
+      }elseif($count == 50){
+         $text[] = '50th Entry!';
+         $image[] = '50th_entry.png';
+      }elseif($count == 60){
+         $text[] = '60th Entry!';
+         $image[] = '60th_entry.png';
+      }else{
+         $text[] = 'Highest!';
+         $image[] = 'highest.png';
+      }
+
+      $getText = implode('', $text);
+      $getImage = implode('', $image);
+
+      echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: {$getText}',
+                        imageUrl: '../../assets/images/achievements/{$getImage}',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+
+
+   }
    
    $journalID = isset($_GET['journalID']) ? $_GET['journalID'] : null;
 

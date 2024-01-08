@@ -49,7 +49,7 @@ if($role != 2){
                         confirmButtonText: 'OK'
                   }).then((result)=>{
                      if(result.isConfirmed){
-                        window.location.href = 'journal.php?journalID=$select_journalID';
+                        window.location.href = 'view-journal.php?journalID=$select_journalID';
                      }
                   });
                });
