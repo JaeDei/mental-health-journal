@@ -16,18 +16,32 @@ if($role != 2){
   $view_journal = $db->prepare("SELECT * FROM journal WHERE userID = :userID");
   $view_journal->bindParam(':userID', $userID, PDO::PARAM_INT);
   $view_journal->execute();
-  $views = $view_journal->fetchAll(PDO::FETCH_ASSOC);
+  $views1 = $view_journal->fetchAll(PDO::FETCH_ASSOC);
 
-  $data = array();
-  foreach($views as $view){
-    $data[] = array(
-      'id' => $view['journal_id'],
-      'title' => $view['title'],
-      'start' => $view['date'],
+  foreach($views1 as $view1){
+    $data1[] = array(
+      'id' => $view1['journal_id'],
+      'title' => $view1['title'],
+      'start' => $view1['date'],
     );
   }
 
-  $event = json_encode($data);
+  $entry = json_encode($data1);
+
+  $view_event = $db->prepare("SELECT *FROM events");
+  $view_event->execute();
+  $views2 = $view_event->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($views2 as $view2){
+    $data2[] =array(
+      'id' => $view2['eventID'],
+      'title' => $view2['eventTitle'],
+      'start' => $view2['start_at'],
+      'end' => $view2['end_at'],
+    );
+  }
+
+  $event = json_encode($data2);
 
 }
 
@@ -95,6 +109,7 @@ if($role != 2){
     <script>
       document.addEventListener('DOMContentLoaded', function(){
         var calendarEl = document.getElementById('calendar');
+        var entry = <?=$entry?>;
         var event = <?=$event?>;
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -103,6 +118,7 @@ if($role != 2){
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           },
+          googleCalendarApiKey: 'AIzaSyDMxXBzWEnQ2RWfLGutZ7y0YHlnkMv0eT4',
           navLinks: true, // can click day/week names to navigate views
           selectable: true,
           selectMirror: true,
@@ -119,11 +135,15 @@ if($role != 2){
                 window.location.href = 'view-journal.php?journalID='+info.event.id;
               }
             })
-            console.log("error");
           },
           editable: true,
           dayMaxEvents: true, // allow "more" link when too many events
-          events: event
+          eventSources: [{
+              googleCalendarId: 'en.philippines#holiday@group.v.calendar.google.com'
+            },
+            entry,
+            event
+          ]
         });
         calendar.render();
       });
