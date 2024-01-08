@@ -55,7 +55,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="calendar.php" class="nav-link">
+          <a href="admin-calendar.php" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
               Calendar
