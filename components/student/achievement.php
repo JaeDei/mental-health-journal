@@ -54,13 +54,261 @@ if($role != 2){
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <?php
+                        $userID = $fetch['userID'];
+                        $check1 = $db->prepare("SELECT * FROM loginAchievement WHERE userID = :userID");
+                        $check1->bindParam(':userID', $userID, PDO::PARAM_INT);
+                        $check1->execute();
+                        ?>
+                        <div class="col-md-12">
+                            <div class="card-header">
+                                <h3 class="card-title">Login</h3>
+                            </div>
+                            <?php
+                            if($check1->rowCount() > 0){
+                                ?>
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <div class="card-body text-center">
+                                                <img src="../../assets/images/achievements/first_login.png" alt="Product Image" class="img-size-50">
+                                            </div>
+                                            <p>First Login</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+
+                        <?php
+                        $check2 = $db->prepare("SELECT * FROM journal WHERE userID = :userID");
+                        $check2->bindParam(':userID', $userID, PDO::PARAM_INT);
+                        $check2->execute();
+                        $row = $check2->fetchAll(PDO::FETCH_ASSOC);
+                        $countJournal = count($row);
+                        ?>
+                        <div class="col-md-12">
+                            <div class="card-header">
+                                <h3 class="card-title">Journal Entry</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal > 1){
+                                                if($countJournal < 0){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/first_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>First Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 10){
+                                                if($countJournal < 9){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/10th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>10th Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 20){
+                                                if($countJournal < 19){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/20th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>20th Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 30){
+                                                if($countJournal < 29){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/30th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>30th Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 40){
+                                                if($countJournal < 39){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/40th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>40th Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 50){
+                                                if($countJournal < 49){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/50th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>50th Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 60){
+                                                if($countJournal < 59){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/60th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>60th Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <?php
+                                            if($countJournal <= 70){
+                                                if($countJournal < 69){
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="card-body text-center">
+                                                        <img src="../../assets/images/achievements/70th_entry.png" alt="Achievement Image" class="img-size-50">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                            <p>Highest</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col-12 -->
+
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+
         </div>
         <!-- /.content-wrapper -->
-        <div id="app">
-        <!-- Your website content goes here -->
-        <button id="loginBtn" class="btn btn-block btn-primary btn-sm">Log In</button>
-        <button id="postBtn" class="btn btn-block btn-primary btn-sm">Post</button>
-        </div>
     
         <aside class="control-sidebar control-sidebar-dark">
 
@@ -77,8 +325,6 @@ if($role != 2){
     <script src="../../assets/js/adminlte.min.js"></script>
 
     <script src="../../assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
-
-    <script src="../../assets/js/achievement.js"></script>
 
     <script src="../../assets/js/activesidebar.js"></script>
 
