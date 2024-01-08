@@ -149,7 +149,86 @@ if($role != 1){
                             </div>
                             <!-- /.info-box -->
                         </div>
+                        <!-- /.col --><!-- TABLE: LATEST ORDERS -->
+                        <div class="col-md-7">
+                            <div class="card">
+                                <div class="card-header border-transparent">
+                                    <h3 class="card-title">Today's Events</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table m-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Event ID</th>
+                                                    <th>Event Title</th>
+                                                    <th>About</th>
+                                                    <th>Start at</th>
+                                                    <th>End at</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $query = $db->prepare("SELECT * FROM events WHERE CURDATE() BETWEEN DATE(start_at) AND DATE(end_at)");
+                                                $query->execute();
+                                                foreach($query as $queries){
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $queries['eventID'];?></td>
+                                                        <td><?php echo $queries['eventTitle'];?></td>
+                                                        <td><?php echo $queries['about'];?></td>
+                                                        <td><?php echo $queries['start_at'];?></td>
+                                                        <td><?php echo $queries['end_at'];?></td>
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
                         <!-- /.col -->
+                        
+                        <div class="col-md-5">
+                            <!-- PRODUCT LIST -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Event Lists</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <ul class="products-list product-list-in-card pl-2 pr-2">
+                                        <?php
+                                        $display = $db->prepare("SELECT * FROM events  ORDER BY eventID DESC LIMIT 4");
+                                        $display->execute();
+                                        foreach($display as $dis){
+                                            ?>
+                                            <li class="item">
+                                                <div class="product-info">
+                                                    <a href="javascript:void(0)" class="product-title"><?php echo $dis['eventTitle'];?></a>
+                                                    <span class="product-description"><?php echo $dis['about'];?></span>
+                                                </div>
+                                            </li>
+                                            <!-- /.item -->
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer text-center">
+                                    <a href="events.php" class="uppercase">View All Events</a>
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
 
 
                     </div>

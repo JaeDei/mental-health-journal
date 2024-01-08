@@ -6,7 +6,7 @@ require('../../includes/config.php');
 require('../../includes/db.php');
 require('../../check-login.php');
 
-if($role != 1){
+if($role != 2){
     unset($_SESSION);
     header('location: ../../unauthorized.php');
 }
@@ -18,7 +18,7 @@ if($role != 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mhj | Admin-Events</title>
+    <title>mhj | Events</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -39,9 +39,9 @@ if($role != 1){
         
         <?php
         /* Navbar */
-        include('../../includes/admin-navbar.php');
+        include('../../includes/student-navbar.php');
         /* Sidebar */
-        include('../../includes/admin-sidebar.php');
+        include('../../includes/student-sidebar.php');
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -51,7 +51,7 @@ if($role != 1){
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Events</h1>
+                            <h1>Events List</h1>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
@@ -64,11 +64,6 @@ if($role != 1){
                       <div class="card text-center">
                         <div class="card-header">
                           <h3 class="card-title">Events</h3>
-                          <div class="card-button">
-                              <button type="submit" onclick="window.location.href='create-event.php?userID=<?php echo $fetch['userID'];?>'" class="btn btn-block btn-primary btn-sm">
-                                  <i class="fas fa-plus"></i>
-                              </button>
-                          </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -87,7 +82,7 @@ if($role != 1){
                               $queries->execute();
                               foreach($queries as $query){
                                 ?>
-                                <tr class="clickable-row" data-href="view-event.php?eventID=<?php echo $query['eventID'];?>">
+                                <tr class="clickable-row" data-href="stud-view-event.php?eventID=<?php echo $query['eventID'];?>">
                                   <td><?php echo $query['eventID'];?></td>
                                   <td><?php echo $query['eventTitle'];?></td>
                                   <td><?php echo $query['start_at'];?></td>
