@@ -28,7 +28,7 @@ if($role != 2){
 
   $entry = json_encode($data1);
 
-  $view_event = $db->prepare("SELECT *FROM events");
+  $view_event = $db->prepare("SELECT * FROM events");
   $view_event->execute();
   $views2 = $view_event->fetchAll(PDO::FETCH_ASSOC);
 
@@ -123,18 +123,33 @@ if($role != 2){
           selectable: true,
           selectMirror: true,
           eventClick: function(info) {
-            Swal.fire({
-              title: 'View this Journal Entry?',
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonColor: '#d33',
-              cancelButtonColor: '#3085d6',
-              confirmButtonText: 'Yes'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.href = 'view-journal.php?journalID='+info.event.id;
-              }
-            })
+            if(entry){
+              Swal.fire({
+                title: 'View this Journal Entry?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = 'view-journal.php?journalID='+info.event.id;
+                }
+              })
+            }else{
+              Swal.fire({
+                title: 'View this Event?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = 'view-event.php?eventID='+info.event.id;
+                }
+              })
+            }
           },
           editable: true,
           dayMaxEvents: true, // allow "more" link when too many events
