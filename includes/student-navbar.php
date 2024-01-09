@@ -35,19 +35,30 @@
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <?php
-          $check = $db->prepare("SELECT * FROM events WHERE CURDATE() BETWEEN DATE(start_at) AND DATE(end_at)");
-          $check->execute();
-          $row = $check->fetchAll(PDO::FETCH_ASSOC);
-          $count = $check->rowCount();
+          $check_event = $db->prepare("SELECT * FROM events WHERE CURDATE() BETWEEN DATE(start_at) AND DATE(end_at)");
+          $check_event->execute();
+          $count_event = $check_event->rowCount();
           ?>
-          <span class="badge badge-warning navbar-badge"><?php echo $count;?></span>
+          <span class="badge badge-warning navbar-badge"><?php echo $count_event;?></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header"><?php echo $count;?> Notifications</span>
+          <span class="dropdown-item dropdown-header"><?php echo $count_event;?> Notifications</span>
           <div class="dropdown-divider"></div>
-          <a href="events-list.php" class="dropdown-item">
-            <i class="fas fa-table mr-2"></i> <?php echo $count;?> Event today
-          </a>
+          <?php
+          if($count_event < 0){
+            ?>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-table mr-2"></i> No Event today
+            </a>
+            <?php
+          }else{
+            ?>
+            <a href="events-list.php" class="dropdown-item">
+              <i class="fas fa-table mr-2"></i> <?php echo $count_event;?> Event today
+            </a>
+            <?php
+          }
+          ?>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
