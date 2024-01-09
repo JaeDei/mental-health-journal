@@ -253,7 +253,7 @@ if($role != 2){
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer text-center">
-                                    <a href="events.php" class="uppercase">View All Events</a>
+                                    <a href="events-list.php" class="uppercase">View All Events</a>
                                 </div>
                                 <!-- /.card-footer -->
                             </div>
