@@ -22,7 +22,7 @@ if ($role != 2) {
 
       $text = array();
       $image = array();
-      if($count < 1){
+      if($count > 1){
          $text[] = 'First Entry!';
          $image[] = 'first_entry.png';
       }elseif($count == 10 ){
@@ -51,7 +51,8 @@ if ($role != 2) {
       $getText = implode('', $text);
       $getImage = implode('', $image);
 
-      echo"
+      if(!isset($_SESSION['pop'])){
+         echo"
             <script type='text/javascript'>
                 document.addEventListener('DOMContentLoaded', function(){
                     Swal.fire({
@@ -65,6 +66,9 @@ if ($role != 2) {
                 });
             </script>";
 
+            $_SESSION['pop'] = true;
+
+      }
 
    }
    
