@@ -42,7 +42,7 @@
           <a href="events-list.php" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
             <p>
-              Events List
+              Event Lists
             </p>
           </a>
         </li>
