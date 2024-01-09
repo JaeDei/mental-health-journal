@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>navbar</title>
+</head>
+<Body>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -71,7 +79,50 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
+              <aside class="control-sidebar control-sidebar-dark">
+  <!-- Content inside the control sidebar goes here -->
+  <div class="p-3">
+    <h5>Settings</h5>
+    <h3 id="DarkModetext">Darkmode is OFF</h3>
+    <button onclick="darkMode()"class="mode-button">Darkmode</button>
+    <button onclick="lightMode()"class="mode-button">LightMode</button>
+    <style>
+
+    .mode-button{
+      color: #ffffff;
+	    margin: 20px auto;
+      background: rgb(107, 104, 104);
+      position: right;
+    }
+    h5{
+      text-align: center;
+    }
+    h3{
+      text-align: center;
+      font-size: 20px;
+    }
+    .p{
+      font-size: 15px;
+    }
+    </style>
+
+<p class="indented-text">Alt+Tab to switch between the open windows</p>
+<p class="indented-text">Alt + E Edits options in the current program.</p>
+<p class="indented-text">Alt + F Shows file menu options in the current program.</p>
+<p class="indented-text">Alt + F4This closes the current window.</p>
+<p class="indented-text">Alt + Page Up It scrolls up the Entire Screen.</p>
+<p class="indented-text">Alt + Page Down	It scrolls down the Entire Screen.</p>
+<p class="indented-text">Alt + Left Arrow	It shows the previous history if it is present in Bowser.</p>
+<p class="indented-text">Alt + Right Arrow	Go forward in the browser window.</p>
+<p class="indented-text">Alt + Enter	It shows the property of the selected item.</p>
+<p class="indented-text">Alt + Page Down	It scrolls down the Entire Screen.</p>
+<p class="indented-text">Ctrl + X	It cuts the selected item.</p>
+      </div>
+</aside>
         </a>
       </li>
     </ul>
   </nav>
+<script src="settings.js"></script>
+        </body>
+    </html>
