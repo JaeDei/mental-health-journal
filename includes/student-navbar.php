@@ -38,7 +38,7 @@
           $check_event = $db->prepare("SELECT * FROM events WHERE CURDATE() BETWEEN DATE(start_at) AND DATE(end_at)");
           $check_event->execute();
           $count_event = $check_event->rowCount();
-          if($count_event < 0){
+          if($count_event > 0){
             ?>
             <span class="badge badge-warning navbar-badge"><?php echo $count_event;?></span>
             <?php
@@ -50,10 +50,10 @@
           <span class="dropdown-item dropdown-header"><?php echo $count_event;?> Notifications</span>
           <div class="dropdown-divider"></div>
           <?php
-          if($count_event < 0){
+          if($count_event == 0){
             ?>
             <a href="#" class="dropdown-item">
-              <i class="fas fa-table mr-2"></i> No Event today
+              <span> No Event today</span>
             </a>
             <?php
           }else{
