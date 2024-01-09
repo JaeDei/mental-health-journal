@@ -22,7 +22,7 @@ if ($role != 2) {
 
       $text = array();
       $image = array();
-      if($count > 1){
+      if($count == 1){
          $text[] = 'First Entry!';
          $image[] = 'first_entry.png';
       }elseif($count == 10 ){
