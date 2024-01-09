@@ -102,20 +102,18 @@ if($role != 2){
                                     <div class="card">
                                         <div class="card-body text-center">
                                             <?php
-                                            if($countJournal > 1){
-                                                if($countJournal < 0){
-                                                    ?>
-                                                    <div class="card-body text-center">
-                                                        <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
-                                                    </div>
-                                                    <?php
-                                                }else{
-                                                    ?>
-                                                    <div class="card-body text-center">
-                                                        <img src="../../assets/images/achievements/first_entry.png" alt="Achievement Image" class="img-size-50">
-                                                    </div>
-                                                    <?php
-                                                }
+                                            if($countJournal <= 1){
+                                                ?>
+                                                <div class="card-body text-center">
+                                                    <img src="../../assets/images/achievements/locked.png" alt="Achievement Image" class="img-size-50">
+                                                </div>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                <div class="card-body text-center">
+                                                    <img src="../../assets/images/achievements/first_entry.png" alt="Achievement Image" class="img-size-50">
+                                                </div>
+                                                <?php
                                             }
                                             ?>
                                             <p>First Entry</p>
