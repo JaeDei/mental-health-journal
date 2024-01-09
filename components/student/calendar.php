@@ -18,12 +18,18 @@ if($role != 2){
   $view_journal->execute();
   $views1 = $view_journal->fetchAll(PDO::FETCH_ASSOC);
 
-  foreach($views1 as $view1){
-    $data1[] = array(
-      'id' => $view1['journal_id'],
-      'title' => $view1['title'],
-      'start' => $view1['date'],
-    );
+  if($view_journal->rowCount() > 0){
+    foreach($views1 as $view1){
+      $data1[] = array(
+        'id' => $view1['journal_id'],
+        'title' => $view1['title'],
+        'start' => $view1['date'],
+      );
+    }
+  }else{
+    $data1 = $db->prepare("SELECT * FROM journal WHERE userID = :userID");
+    $data1->bindParam(':userID', $userID, PDO::PARAM_INT);
+    $data1->execute();
   }
 
   $entry = json_encode($data1);
@@ -32,13 +38,18 @@ if($role != 2){
   $view_event->execute();
   $views2 = $view_event->fetchAll(PDO::FETCH_ASSOC);
 
-  foreach($views2 as $view2){
-    $data2[] =array(
-      'id' => $view2['eventID'],
-      'title' => $view2['eventTitle'],
-      'start' => $view2['start_at'],
-      'end' => $view2['end_at'],
-    );
+  if($view_event->rowCount() > 0){
+    foreach($views2 as $view2){
+      $data2[] =array(
+        'id' => $view2['eventID'],
+        'title' => $view2['eventTitle'],
+        'start' => $view2['start_at'],
+        'end' => $view2['end_at'],
+      );
+    }
+  }else{
+    $data2 = $db->prepare("SELECT * FROM events");
+    $data2->execute();
   }
 
   $event = json_encode($data2);

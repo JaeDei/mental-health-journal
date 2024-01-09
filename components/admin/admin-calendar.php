@@ -13,15 +13,21 @@ if($role != 1){
 
   $view_event = $db->prepare("SELECT * FROM events");
   $view_event->execute();
-  $views = $view_event->fetchAll(PDO::FETCH_ASSOC);
+  $views = $view_event->fetchAll(PDO::FETCH_ASSOC); 
 
-  foreach($views as $view){
-    $data[] =array(
-      'id' => $view['eventID'],
-      'title' => $view['eventTitle'],
-      'start' => $view['start_at'],
-      'end' => $view['end_at'],
-    );
+  if($view_event->rowCount() > 0){
+    foreach($views as $view){
+        $data[] =array(
+        'id' => $view['eventID'],
+        'title' => $view['eventTitle'],
+        'start' => $view['start_at'],
+        'end' => $view['end_at'],
+        );
+    }
+    
+  }else{
+    $data = $db->prepare("SELECT * FROM events");
+    $data->execute();
   }
 
   $event = json_encode($data);
