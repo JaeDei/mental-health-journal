@@ -66,7 +66,7 @@
             <?php
           }else{
             ?>
-            <a href="#" class="dropdown-item">
+            <a href="events.php" class="dropdown-item">
               <i class="fas fa-table mr-2"></i> <?php echo $count;?> Event today
             </a>
             <?php
