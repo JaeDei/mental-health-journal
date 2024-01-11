@@ -20,54 +20,118 @@ if ($role != 2) {
       $row = $check->fetchAll(PDO::FETCH_ASSOC);
       $count = count($row);
 
-      $text = array();
-      $image = array();
       if($count == 1){
-         $text[] = 'First Entry!';
-         $image[] = 'first_entry.png';
-      }elseif($count == 10 ){
-         $text[] = '10th Entry!';
-         $image[] = '10th_entry.png';
-      }elseif($count == 20){
-         $text[] = '20th Entry!';
-         $image[] = '20th_entry.png';
-      }elseif($count == 30){
-         $text[] = '30th Entry!';
-         $image[] = '30th_entry.png';
-      }elseif($count == 40){
-         $text[] = '40th Entry!';
-         $image[] = '40th_entry.png';
-      }elseif($count == 50){
-         $text[] = '50th Entry!';
-         $image[] = '50th_entry.png';
-      }elseif($count == 60){
-         $text[] = '60th Entry!';
-         $image[] = '60th_entry.png';
-      }elseif($count>60){
-         $text[] = 'Highest!';
-         $image[] = 'highest.png';
-      }
-
-      $getText = implode('', $text);
-      $getImage = implode('', $image);
-
-      if(!isset($_SESSION['pop'])){
          echo"
             <script type='text/javascript'>
                 document.addEventListener('DOMContentLoaded', function(){
                     Swal.fire({
                         title: 'Congratulation!',
-                        text: 'Achievement Unlocked: {$getText}',
-                        imageUrl: '../../assets/images/achievements/{$getImage}',
+                        text: 'Achievement Unlocked: First Entry!',
+                        imageUrl: '../../assets/images/achievements/first_entry.png',
                         imageWidth: 200,
                         imageHeight: 200,
                         imageAlt: 'Custom image'
                     });
                 });
             </script>";
-
-            $_SESSION['pop'] = true;
-
+      }elseif($count == 10 ){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: 10th Entry!',
+                        imageUrl: '../../assets/images/achievements/10th_entry.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+      }elseif($count == 20){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: 20th Entry!',
+                        imageUrl: '../../assets/images/achievements/20th_entry.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+      }elseif($count == 30){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: 30th Entry!',
+                        imageUrl: '../../assets/images/achievements/30th_entry.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+      }elseif($count == 40){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: 40th Entry!',
+                        imageUrl: '../../assets/images/achievements/40th_entry.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+      }elseif($count == 50){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: 50th Entry!',
+                        imageUrl: '../../assets/images/achievements/50th_entry.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+      }elseif($count == 60){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: 60th Entry!',
+                        imageUrl: '../../assets/images/achievements/60th_entry.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
+      }elseif($count > 60){
+         echo"
+            <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(){
+                    Swal.fire({
+                        title: 'Congratulation!',
+                        text: 'Achievement Unlocked: Highest!',
+                        imageUrl: '../../assets/images/achievements/highest.png',
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Custom image'
+                    });
+                });
+            </script>";
       }
 
    }
